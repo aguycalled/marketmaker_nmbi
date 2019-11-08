@@ -75,7 +75,7 @@ Function<div style="width:200px"/> | Input Parameter(s) | Expected Output(s) | D
 `_track_single_book` | None | None | Update an order book with changes from the latest batch of received messages.<br/>Constantly attempts to retrieve the next available message from `_save_message_queues` and applying the message onto the respective order book.<br/><table><tbody><tr><td bgcolor="#ecf3ff">**Note**: Might require `convert_[snapshot|diff]_message_to_order_book_row` from the `ActiveOrderTracker` to convert the messages into `OrderBookRow`</td></tr></tbody></table>
 `start` | None | None | Start all custom listeners and tasks in the `OrderBookTracker` component. <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: You may be required to call `start` in the base class by using `await super().start()`. This is **optional** as long as there is a task listening for trade messages and emitting the `TradeEvent` as seen in `c_apply_trade` in [`OrderBook`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/data_type/order_book.pyx) </td></tr></tbody></table>
 
-#### Additional Useful Function(s)
+#### Additional Function(s)
 
 The table below details some functions already implemented in the [`OrderBookTracker`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/data_type/order_book_tracker.py) base class:
 
