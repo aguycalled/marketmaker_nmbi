@@ -5,7 +5,7 @@ This guide is intended to get you familiarized with basic structure of a connect
 By the end of this guide, you should: 
 
 * Have a general understanding of the base classes that serve as building blocks of a connector
-* Be able to integrate new connectors from scratch
+* Be able to integrate and test new connectors from scratch
 
 Implementing a new connector can generally be split into 3 major tasks:
 
@@ -17,11 +17,11 @@ Implementing a new connector can generally be split into 3 major tasks:
 
 Generally the first 2 components you should begin with when implementing your own connector are the `OrderBookTrackerDataSource` and `OrderBookTracker`.
 
-The `OrderBookTracker` contains subsidiary classes that help maintain the real-time order book of a market. Namely, the classes are `OrderBookTrackerDataSource` and `ActiveOrderTracker`.
+The `OrderBookTracker` contains subsidiary classes that helps to maintain the real-time order book of a market. Namely, the classes are `OrderBookTrackerDataSource` and `ActiveOrderTracker`.
 
 ### OrderBookTrackerDataSource
 
-The `OrderBookTrackerDataSource` class is responsible for making API calls and/or WebSocket queries to obtain order book snapshots, order book deltas and miscellaneous information on order book.
+The `OrderBookTrackerDataSource` class is responsible for making API calls and/or WebSocket queries to obtain order book snapshots, order book deltas and other miscellaneous information on a trading pair supported on the exchange.
 
 Integrating your own data source component would require you to extend from the `OrderBookTrackerDataSource` base class [here](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/data_type/order_book_tracker_data_source.py).
 
@@ -55,7 +55,7 @@ Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | D
 `c_convert_trade_message_to_np_arrays` | `object`: message | `numpy.array` | Parses an incoming trade messages into `numpy.array` data type to be used by `convert_diff_message_to_order_book_row()`.
 
 !!! warning
-    `OrderBookRow` should only be used in the `ActiveOrderTracker` class, while `ClientOrderBookRow` should only be used in the `Market` class. This is due to improve performance especially since calculations in `float` fair better than that of `Decimal`.
+    `OrderBookRow` should only be used in the `ActiveOrderTracker` class, while `ClientOrderBookRow` should only be used in the `Market` class. This is to improve performance especially since calculations in `float` fair better than in `Decimal`.
 
 ### OrderBookTracker
 
@@ -101,7 +101,7 @@ The `UserStreamTracker` main responsibility is to fetch user account data and qu
 
 The `UserStreamTrackerDataSource` class is responsible for making API calls and/or WebSocket queries to obtain order book snapshots, order book deltas and miscellaneous information on order book.
 
-Integrating your own data source component would require you to extend from the OrderBookTrackerDataSource base class here.
+Integrating your own data source component would require you to extend from the `OrderBookTrackerDataSource` base class here.
 
 The table below details the **required** functions in `UserStreamTrackerDataSource`:
 
@@ -177,7 +177,7 @@ The section below will describe in detail what is required for the `Market` clas
 Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | Description
 ---|---|---|---
 `execute_buy` | order_id: `str`,<br/>symbol: `str`,<br/>amount: `Decimal`,<br/>order_type: `OrderType`,<br/>price: `Optional[Decimal] = s_decimal_0`| None | Function that takes the strategy inputs, auto corrects itself with trading rules, and places a buy order by calling the `place_order` function.<br/><br/>This function also begins to track the order by calling the `c_start_tracking_order` and `c_trigger_event` function.<br/>
-`execute_buy` | order_id: `str`,<br/>symbol: `str`,<br/>amount: `Decimal`,<br/>order_type: `OrderType`,<br/>price: `Optional[Decimal] = s_decimal_0` | None | Function that takes the strategy inputs, auto corrects itself with trading rules, and places a buy order by calling the `place_order` function.
+`execute_sell` | order_id: `str`,<br/>symbol: `str`,<br/>amount: `Decimal`,<br/>order_type: `OrderType`,<br/>price: `Optional[Decimal] = s_decimal_0` | None | Function that takes the strategy inputs, auto corrects itself with trading rules, and places a sell order by calling the `place_order` function.
 
 !!! tip
     The `execute_buy` and `execute_sell` methods verify that the trades would be allowed given the trading rules obtained from the exchange and calculate applicable trading fees. They then must do the following:
@@ -231,43 +231,6 @@ Function<div style="width:150px"/> | Description
     
     It is necessary that the above functions adhere to the flow as defined in the order lifecycle for the connector to work as intended.
 
-#### Trading Rules
-
-Trading Rules are defined by the respective exchanges. It is crucial that Hummingbot manage and maintain the set of trading rules to ensure that there will be no issues when placing orders.
-
-A list of some common rules can be seen in [`trading_rule.pyx`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/trading_rule.pyx).
-
-!!! tip
-    Most exchanges have a minimum trading size. Not all rules need to be defined, however, it is essential to meet the rules as specified by the exchange.
-   
-All trading rules are stored in `self._trading_rules` in the `Market` class.
-
-The table below details the functions responsible for maintaining the `TradeRule` for each trading pair
-
-Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | Description
----|---|---|---
-`_trading_rules_polling_loop` | None | None | A background process that periodically polls for trading rule changes. Since trading rules tend not to change as often as account balances and order statuses, this is done less often. THis function is responsible for calling `_update_trading_rules`
-`_update_trading_rules` | None | None | Gets the necessary trading rules definitions form the corresponding REST API endpoints. Calls `_format_trading_rules`; that parses and updates the `_trading_rules` variable in the `Market` class.
-`_format_trading_rules` | `List[Any]` | `List[TradingRule]` | Parses the raw JSON response into a list of [`TradingRule`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/trading_rule.pyx). <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: This is important since exchanges might only accept certain precisions and impose a minimum trade size on the order.</td></tr></tbody></table>
-
-#### Order Price/Size Quantum & Quantize Order Amount
-
-This, together with the trading rules, ensure that all orders placed by Hummingbot meet the required specifications as defined by the exchange.
-
-!!! note
-    These checks are performed in `execute_buy` and `execute_sell` **before** placing an order.<br/>
-    In the event where the orders proposed by the strategies fail to meet the requirements as defined in the trading rules, the intended behaviour for the `Market` class is simply to raise an error and not place the order.<br/>
-    You may be required to add additional functions to help determine if an order meets the necessary requirements.
-
-The table below details some functions responsible for this.
-
-Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | Description
----|---|---|---
-`c_get_order_price_quantum` | `str trading_pair`,<br/>`object price` | `Decimal` | Gets the minimum increment interval for an order price.
-`c_get_order_size_quantum` | `str trading_pair`,<br/>`object order_size` | `Decimal` | Gets the minimum increment interval for an order size (i.e. 0.01 .USD)
-`c_quantize_order_amount` | `str trading_pair`,<br/>`object amount`,<br/>`object price=s_decimal_0`| `Decimal` | Checks the current order amount against the trading rules, and corrects(i.e simple rounding) any rule violations. Returns a valid order amount in `Decimal` format.
-`c_quantize_order_price` | `str trading_pair`,<br/>`object price`,,br/>`object price=s_decimal_0`| `Decimal` | Checks the current order price against the trading rules, and corrects(i.e. simple rounding) any rule violations. Returns a valid order price in `Decimal` format.    
-
 #### Additional Required Function(s)
 
 Below are a list of `required` functions for the `Market` class to be fully functional.
@@ -293,7 +256,10 @@ Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | D
 `_http_client` | `None` | `aiohttp.ClientSession` | Returns a shared HTTP client session instance. <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: This prevents the need to establish a new session on every API request.</td></tr></tbody></table>
 `_api_request` | `http_method:str`<br/>`path_url:str`<br/>`url:str`<br/>`data:Optional[Dict[str,Any]]`| `Dict[str, Any]` | An asynchronous wrapper function for submitting API requests to the respective exchanges. Returns the JSON response form the endpoints. Handles any initial HTTP status error codes. 
 `_update_balances` | `None` | `None` | Gets account balance updates from the corresponding REST API endpoints and updates `_account_available_balances` and `_account_balances` class variables in the `MarketBase` class.
+`_update_trading_rules` | `None` | `None` | Gets the necessary trading rules definitions from the corresponding REST API endpoints. Calls `_format_trading_rules`, to parse and subsequently updates `_trading_rules` variable.
+`_format_trading_rules` | `List[Any]` | `List[TradingRule]` | Parses the raw JSON response into a list of [`TradingRule`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/trading_rule.pyx). <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: This is important since exchanges might only accept certain precisions and impose a minimum trade size on the order.</td></tr></tbody></table>
 `_status_polling_loop` | `None` | `None` | A background process that periodically polls for any updates on the REST API. This is responsible for calling `_update_balances` and `_update_order_status`.
+`_trading_rules_polling_loop` | `None` | `None` | A background process that periodically polls for trading rule changes. Since trading rules tend not to change as often as account balances and order statuses, this is done less often. This function is responsible for calling `_update_trading_rules`.
 `c_start` | `Clock clock`<br/>`double timestamp`| `None` | A function used by the top level Clock to orchestrate components of Hummingbot.
 `c_tick` | `double timestamp` | `None` | Used by top level Clock to orchestrate components of Hummingbot. This function is called frequently with every clock tick.
 `c_buy` | `str symbol`,<br/>`object amount`,<br/>`object order_type=OrderType.MARKET`,<br/>`object price=s_decimal_0`,<br/>`dict kwargs={}`| `str` | A synchronous wrapper function that generates a client-side order ID and schedules a **buy** order. It calls the `execute_buy` function and returns the client-side order ID.
@@ -304,6 +270,9 @@ Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | D
 `c_get_order_book` | `str symbol` | `OrderBook` | Returns the `OrderBook` for a specific trading pair(symbol).
 `c_start_tracking_order` | `str client_order_id`,<br/>`str symbol`,<br/>`object order_type`,<br/>`object trade_type`,<br/>`object price`,<br/>`object amount` | `None` | Adds a new order to the `_in_flight_orders` class variable. This essentially begins tracking the order on the Hummingbot client. 
 `c_stop_tracking_order` | `str order_id` | `None` | Deletes an order from `_in_flight_orders` class variable. This essentially stops the Hummingbot client from tracking an order.
+`c_get_order_price_quantum` | `str symbol`,<br/>`object price` | `Decimal` | Gets the minimum increment interval for an order price.
+`c_get_order_size_quantum` | `str symbol`,<br/>`object order_size` | `Decimal` | Gets the minimum increment interval for order size. (i.e. 0.01 USD)
+`c_quantize_order_amount` | `str symbol`,<br/>`object amount`,<br/>`object price=s_decimal_0`| `Decimal` | Checks the current order amount against the trading rules, and correct any rule violations. Returns a valid order amount in `Decimal` format.
 
 
 ## Task 4. Hummingbot Client
@@ -337,24 +306,7 @@ MARKET_CLASSES = {
     .
     .
     "new_market": NewMarket
-}
-.
-.
-.
-  def _initialize_markets(self, market_names: List[Tuple[str, List[str]]]):
-    ...
-    ...
-       ...
-       elif market_name == "new_market":
-         new_market_api_key = global_config_map.get("new_market_api_key").value
-         new_market_secret_key = global_config_map.get("new_market_secret_key").value
-         new_market_passphrase = global_config_map.get("new_market_passphrase").value
-
-         market = NewMarket(new_market_api_key,
-                            new_market_secret_key,
-                            new_market_passphrase,
-                            symbols=symbols,
-                            trading_required=self._trading_required)
+}	}
 ```
 
 - `hummingbot/client/settings.py`
@@ -443,11 +395,11 @@ MARKET = {
 This section will breakdown some of the ways to debug and test the code. You are not entirely required to use the options during your development process.
 
 !!! warning
-    As part of the QA process, for each tasks(Task 1 through 3) you are **required** to include the unit test cases for the code review process to begin. Refer to [Option 1: Unit Test Cases](#option-3-unit-test-cases) to build your unit tests.
+    As part of the QA process, for each task(Task 1 through 3) you are **required** to include the unit test cases for the code review process to begin. Refer to [Option 1: Unit Test Cases](#option-3-unit-test-cases) to build your unit tests.
     
 ### Option 1. Unit Test Cases
 
-For each tasks(1->3), you are required to create a unit test case. Namely they are `test_*_order_book_tracker.py`, `test_*_user_stream_tracker.py` and `test_*_market.py`. 
+For each task(1->3), you are required to create a unit test case. Namely they are `test_*_order_book_tracker.py`, `test_*_user_stream_tracker.py` and `test_*_market.py`. 
 Examples can be found in the [test/integration](https://github.com/CoinAlpha/hummingbot/tree/master/test/integration) folder.
 
 Below are a list of items required for the Unit Tests:
@@ -457,9 +409,11 @@ The purpose of this test is to ensure that the `OrderBookTrackerDataSource` and 
 Another way to test its functionality is using a Debugger to ensure that the contents `OrderBook` mirrors that on the exchange.
 
 2. User Stream Tracker | `test_*_user_stream_tracker.py`<br/>
-The purpose of this test is to ensure that the `UserStreamTrackerDataSource` and `UserStreamTracker` components are working as intended.
-This only applies to exchanges that has a WebSocket API. As seen in the examples for this test, it simply outputs all the user stream messages. 
-It is still required that certain actions(buy and cancelling orders) be performed for the tracker to capture. Manual message comparison would be required.
+The purpose of this test is to ensure that the `UserStreamTrackerDataSource` and `UserStreamTracker` components are working as intended. This only applies to exchanges that has a WebSocket API. 
+Also ,it is still required that certain actions(buy and/or cancelling orders) be performed for the tracker to capture these messages. Manual comparison would be still be required.
+
+    !!! note
+        The tests in existing connectors essentially waits and accumulates the messages from the `UserStreamTracker` onto a `asyncio.Queue` and simply prints it.
 
     i.e. Placing a single LIMIT-BUY order on Bittrex Exchange should return the following(some details are omitted)
 
@@ -469,15 +423,16 @@ It is still required that certain actions(buy and cancelling orders) be performe
     Amount: 100ZRX
     Price: 0.00160699ETH
     ```
-    
+
     ```Bash tab="Action(s) Performed"
+    # These are to be done on the web application or via scripts
     1. Placed LIMIT BUY order.
     2. Cancel order.
     ```
-    
-    ```Bash tab="Expected output"
+
+    ```Bash tab="Expected Output"
     # Below is the outcome of the test. Determining if this is accurate would still be necessaru.
-    
+
     <Queue maxsize=0 _queue=[
         BittrexOrderBookMessage(
             type=<OrderBookMessageType.DIFF: 2>, 
