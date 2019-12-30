@@ -10,6 +10,7 @@ from hummingbot.core.utils.async_utils import safe_ensure_future
 from hummingbot.core.utils.exchange_rate_conversion import ExchangeRateConversion
 from hummingbot.market.bamboo_relay.bamboo_relay_market import BambooRelayMarket
 from hummingbot.market.binance.binance_market import BinanceMarket
+from hummingbot.market.hitbtc.hitbtc_market import HitBtcMarket
 from hummingbot.market.bittrex.bittrex_market import BittrexMarket
 from hummingbot.market.coinbase_pro.coinbase_pro_market import CoinbaseProMarket
 from hummingbot.market.ddex.ddex_market import DDEXMarket
@@ -24,6 +25,7 @@ MARKETS = {
     "ddex": DDEXMarket,
     "coinbase_pro": CoinbaseProMarket,
     "binance": BinanceMarket,
+    "hitbtc": HitBtcMarket,
     "bamboo_relay": BambooRelayMarket,
     "radar_relay": RadarRelayMarket,
     "idex": IDEXMarket,

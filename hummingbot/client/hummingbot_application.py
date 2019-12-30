@@ -14,6 +14,7 @@ from hummingbot.core.data_type.user_stream_tracker import UserStreamTrackerDataS
 from hummingbot.logger import HummingbotLogger
 from hummingbot.logger.application_warning import ApplicationWarning
 from hummingbot.market.binance.binance_market import BinanceMarket
+from hummingbot.market.hitbtc.hitbtc_market import HitBtcMarket
 from hummingbot.market.bittrex.bittrex_market import BittrexMarket
 from hummingbot.market.coinbase_pro.coinbase_pro_market import CoinbaseProMarket
 from hummingbot.market.ddex.ddex_market import DDEXMarket
@@ -57,6 +58,7 @@ s_logger = None
 MARKET_CLASSES = {
     "bamboo_relay": BambooRelayMarket,
     "binance": BinanceMarket,
+    "hitbtc": HitBtcMarket,
     "coinbase_pro": CoinbaseProMarket,
     "ddex": DDEXMarket,
     "huobi": HuobiMarket,
@@ -284,6 +286,16 @@ class HummingbotApplication(*commands):
                     order_book_tracker_data_source_type=OrderBookTrackerDataSourceType.EXCHANGE_API,
                     trading_pairs=trading_pairs,
                     trading_required=self._trading_required,
+                )
+
+            elif market_name == "hitbtc":
+                hitbtc_api_key = global_config_map.get("hitbtc_api_key").value
+                hitbtc_secret_key = global_config_map.get("hitbtc_secret_key").value
+                market = HitBtcMarket(hitbtc_api_key,
+                    hitbtc_secret_key,
+                    order_book_tracker_data_source_type=OrderBookTrackerDataSourceType.EXCHANGE_API,
+                    trading_pairs=trading_pairs,
+                    trading_required=self._trading_required
                 )
 
             elif market_name == "radar_relay" and self.wallet:

@@ -10,6 +10,7 @@ import certifi
 import ssl
 
 BINANCE_ENDPOINT = "https://api.binance.com/api/v1/exchangeInfo"
+HITBTC_ENDPOINT = "https://api.hitbtc.com/api/2/public/symbol/"
 DDEX_ENDPOINT = "https://api.ddex.io/v3/markets"
 RADAR_RELAY_ENDPOINT = "https://api.radarrelay.com/v2/markets"
 BAMBOO_RELAY_ENDPOINT = "https://rest.bamboorelay.com/main/0x/markets"
@@ -58,6 +59,24 @@ class TradingPairFetcher:
                     except Exception:
                         pass
                         # Do nothing if the request fails -- there will be no autocomplete for binance trading pairs
+                return []
+
+    @staticmethod
+    async def fetch_hitbtc_trading_pairs() -> List[str]:
+        from hummingbot.market.hitbtc.hitbtc_market import HitBtcMarket
+
+        async with aiohttp.ClientSession() as client:
+            async with client.get(HITBTC_ENDPOINT, timeout=API_CALL_TIMEOUT) as response:
+                if response.status == 200:
+                    try:
+                        all_trading_pairs: Dict[str, any] = await response.json()
+                        valid_trading_pairs: list = []
+                        for item in all_trading_pairs:
+                            valid_trading_pairs.append(item["id"])
+                        return [HitBtcMarket.convert_from_exchange_trading_pair(p) for p in valid_trading_pairs]
+                    except Exception:
+                        pass
+                        # Do nothing if the request fails -- there will be no autocomplete for HitBTC trading pairs
                 return []
 
     @staticmethod
@@ -250,6 +269,7 @@ class TradingPairFetcher:
 
     async def fetch_all(self):
         binance_trading_pairs = await self.fetch_binance_trading_pairs()
+        hitbtc_trading_pairs = await self.fetch_hitbtc_trading_pairs()
         ddex_trading_pairs = await self.fetch_ddex_trading_pairs()
         radar_relay_trading_pairs = await self.fetch_radar_relay_trading_pairs()
         bamboo_relay_trading_pairs = await self.fetch_bamboo_relay_trading_pairs()
@@ -262,6 +282,7 @@ class TradingPairFetcher:
         bitcoin_com_trading_pairs = await self.fetch_bitcoin_com_trading_pairs()
         self.trading_pairs = {
             "binance": binance_trading_pairs,
+            "hitbtc": hitbtc_trading_pairs,
             "dolomite": dolomite_trading_pairs,
             "idex": idex_trading_pairs,
             "ddex": ddex_trading_pairs,

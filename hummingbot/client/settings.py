@@ -29,6 +29,7 @@ CONF_POSTFIX = "_strategy"
 EXCHANGES = {
     "bamboo_relay",
     "binance",
+    "hitbtc",
     "coinbase_pro",
     "ddex",
     "huobi",
@@ -53,6 +54,7 @@ STRATEGIES: List[str] = get_strategy_list()
 EXAMPLE_PAIRS = {
     "bamboo_relay": "ZRX-WETH",
     "binance": "ZRX-ETH",
+    "hitbtc": "ETH-USD",
     "bitcoin_com": "ETH-BCH",
     "bittrex": "ZRX-ETH",
     "coinbase_pro": "ETH-USDC",
@@ -67,6 +69,7 @@ EXAMPLE_PAIRS = {
 EXAMPLE_ASSETS = {
     "bamboo_relay": "ZRX",
     "binance": "ZRX",
+    "hitbtc": "ETH",
     "bitcoin_com": "BCH",
     "bittrex": "ZRX",
     "coinbase_pro": "ETH",

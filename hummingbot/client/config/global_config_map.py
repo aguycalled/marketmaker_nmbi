@@ -121,6 +121,16 @@ global_config_map = {
                   prompt="Enter your Binance API secret >>> ",
                   required_if=using_exchange("binance"),
                   is_secure=True),
+    "hitbtc_api_key":
+        ConfigVar(key="hitbtc_api_key",
+                  prompt="Enter your HitBTC API key >>> ",
+                  required_if=using_exchange("hitbtc"),
+                  is_secure=True),
+    "hitbtc_secret_key":
+        ConfigVar(key="hitbtc_secret_key",
+                  prompt="Enter your HitBTC secret key >>> ",
+                  required_if=using_exchange("hitbtc"),
+                  is_secure=True),
     "coinbase_pro_api_key":
         ConfigVar(key="coinbase_pro_api_key",
                   prompt="Enter your Coinbase API key >>> ",

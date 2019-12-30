@@ -38,6 +38,10 @@ kafka_bootstrap_server = "***REMOVED***"
 binance_api_key = os.getenv("BINANCE_API_KEY")
 binance_api_secret = os.getenv("BINANCE_API_SECRET")
 
+# HitBTC Tests
+hitbtc_api_key = os.getenv("HITBTC_API_KEY")
+hitbtc_secret_key = os.getenv("HITBTC_SECRET_KEY")
+
 # Coinbase Pro Tests
 coinbase_pro_api_key = os.getenv("COINBASE_PRO_API_KEY")
 coinbase_pro_secret_key = os.getenv("COINBASE_PRO_SECRET_KEY")
