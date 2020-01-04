@@ -4,7 +4,7 @@ import logging
 import ujson
 import pandas as pd
 import hummingbot.market.hitbtc.hitbtc_constants as constants
-import hummingbot.market.hitbtc.hitbtc_order_book_message as HitBtcOrderBookMessage
+from hummingbot.market.hitbtc.hitbtc_order_book_message import HitBtcOrderBookMessage
 
 from aiokafka import ConsumerRecord
 from sqlalchemy.engine import RowProxy
@@ -22,6 +22,7 @@ from hummingbot.core.data_type.order_book_message import (
 _hbaot_logger = None
 
 cdef class HitBtcOrderBook(OrderBook):
+
     @classmethod
     def logger(cls) -> HummingbotLogger:
         global _hbaot_logger
@@ -34,23 +35,29 @@ cdef class HitBtcOrderBook(OrderBook):
                                        msg: Dict[str, any],
                                        timestamp: float,
                                        metadata: Optional[Dict] = None):
-        if metadata: msg.update(metadata)
+        print("snapshot_message_from_exchange inside func")
+        try:
+            if metadata: msg.update(metadata)
 
-        bids = [list(item.values()) for item in msg['bid']]
-        asks = [list(item.values()) for item in msg['ask']]
+            bids = [list(item.values()) for item in msg['bid']]
+            asks = [list(item.values()) for item in msg['ask']]
 
-        content = {
-            "trading_pair": msg["trading_pair"],
-            "update_id": timestamp,
-            "bids": bids,
-            "asks": asks
-        }
+            content = {
+                "trading_pair": msg["trading_pair"],
+                "update_id": timestamp,
+                "bids": bids,
+                "asks": asks
+            }
 
-        return HitBtcOrderBookMessage(
-            message_type=OrderBookMessageType.SNAPSHOT,
-            content=content,
-            timestamp=timestamp
-        )
+            return HitBtcOrderBookMessage(
+                message_type=OrderBookMessageType.SNAPSHOT,
+                content=content,
+                timestamp=timestamp
+            )
+        except Exception as e:
+            print(e)
+            cls.logger().error(f" snapshot error: {str(e)}", exc_info=True)
+            raise e
 
     @classmethod
     def snapshot_message_from_db(cls, record: RowProxy, metadata: Optional[Dict] = None):

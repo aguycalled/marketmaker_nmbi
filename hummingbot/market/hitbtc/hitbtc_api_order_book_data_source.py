@@ -12,13 +12,14 @@ from typing import Optional, List, Dict, Any
 from hummingbot.core.data_type.order_book import OrderBook
 from hummingbot.core.data_type.order_book_message import OrderBookMessage
 from hummingbot.core.data_type.order_book_tracker_data_source import OrderBookTrackerDataSource
-from hummingbot.core.data_type.order_book_tracker_entry import OrderBookTrackerEntry, HitBtcOrderBookTrackerEntry
+from hummingbot.core.data_type.order_book_tracker_entry import OrderBookTrackerEntry
 from hummingbot.core.utils import async_ttl_cache
 from hummingbot.core.utils.async_utils import safe_gather
 from hummingbot.logger import HummingbotLogger
 from hummingbot.market.hitbtc.hitbtc_active_order_tracker import HitBtcActiveOrderTracker
 from hummingbot.market.hitbtc.hitbtc_order_book import HitBtcOrderBook
 from hummingbot.market.hitbtc.hitbtc_websocket import HitBtcWebsocket
+from hummingbot.market.hitbtc.hitbtc_order_book_tracker_entry import HitBtcOrderBookTrackerEntry
 
 
 MAX_RETRIES = 20
@@ -152,6 +153,7 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
                 try:
                     snapshot: Dict[str, any] = await self.get_snapshot(client, trading_pair)
                     snapshot_timestamp: float = pd.Timestamp(snapshot["timestamp"]).timestamp()
+
                     snapshot_msg: OrderBookMessage = HitBtcOrderBook.snapshot_message_from_exchange(
                         snapshot,
                         snapshot_timestamp,
@@ -177,8 +179,8 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
                         exc_info=True,
                         app_warning_msg=f"Error getting snapshot for {trading_pair}. Check network connection."
                     )
-                except Exception:
-                    self.logger().error(f"Error initializing order book for {trading_pair}. ", exc_info=True)
+                except Exception as e:
+                    self.logger().error(f"Error initializing order book for {trading_pair}: {str(e)}", exc_info=True)
 
             return tracking_pairs
 
@@ -202,13 +204,14 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
 
                         for trade in trades:
                             trade_timestamp: float = pd.Timestamp(trade["timestamp"]).timestamp()
+
                             trade_msg: OrderBookMessage = HitBtcOrderBook.trade_message_from_exchange(trade, trade_timestamp, metadata={"trading_pair": trading_pair})
                             output.put_nowait(trade_msg)
 
             except asyncio.CancelledError:
                 raise
-            except Exception:
-                self.logger().error("Unexpected error.", exc_info=True)
+            except Exception as e:
+                self.logger().error(f"Unexpected error: {str(e)}", exc_info=True)
                 await asyncio.sleep(5.0)
 
     async def listen_for_order_book_diffs(self, ev_loop: asyncio.BaseEventLoop, output: asyncio.Queue):
@@ -217,8 +220,11 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
         """
         while True:
             try:
+                self.logger().error('listen_for_order_book_diffs')
                 ws = HitBtcWebsocket()
+                self.logger().error(str(ws))
                 trading_pairs: List[str] = await self.get_trading_pairs()
+                self.logger().error(str(trading_pairs))
 
                 for trading_pair in trading_pairs:
                     await ws.subscribe("subscribeOrderbook", {
@@ -227,17 +233,18 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
 
                     async for msg in ws.on("updateOrderbook"):
                         orderbook_timestamp: float = pd.Timestamp(msg["timestamp"]).timestamp()
+
                         orderbook_msg: OrderBookMessage = HitBtcOrderBook.diff_message_from_exchange(msg, orderbook_timestamp)
                         output.put_nowait(orderbook_msg)
 
             except asyncio.CancelledError:
                 raise
-            except Exception:
+            except Exception as e:
                 self.logger().network(
-                    f"Unexpected error with WebSocket connection.",
+                    f"Unexpected error with WebSocket connection. {str(e)}",
                     exc_info=True,
                     app_warning_msg=f"Unexpected error with WebSocket connection. Retrying in 30 seconds. "
-                                    f"Check network connection."
+                                    f"Check network connection. {str(e)}"
                 )
                 await asyncio.sleep(30.0)
 
@@ -253,6 +260,7 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
                         try:
                             snapshot: Dict[str, any] = await self.get_snapshot(client, trading_pair)
                             snapshot_timestamp: float = pd.Timestamp(snapshot["timestamp"]).timestamp()
+
                             snapshot_msg: OrderBookMessage = HitBtcOrderBook.snapshot_message_from_exchange(
                                 snapshot,
                                 snapshot_timestamp,
@@ -264,9 +272,9 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
                             await asyncio.sleep(1.0)
                         except asyncio.CancelledError:
                             raise
-                        except Exception:
+                        except Exception as e:
                             self.logger().network(
-                                f"Unexpected error with REST API connection.",
+                                f"Unexpected error with REST API connection. {str(e)}",
                                 exc_info=True,
                                 app_warning_msg=f"Unexpected error with REST API connection. Retrying in 5 seconds. "
                                                 f"Check network connection."
@@ -278,6 +286,6 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
                 await asyncio.sleep(delta)
             except asyncio.CancelledError:
                 raise
-            except Exception:
-                self.logger().error("Unexpected error.", exc_info=True)
+            except Exception as e:
+                self.logger().error(f"Unexpected error: {str(e)}", exc_info=True)
                 await asyncio.sleep(5.0)

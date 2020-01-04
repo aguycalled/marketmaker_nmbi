@@ -18,6 +18,9 @@ bitcoin_com_secret_key: null
 bittrex_api_key: null
 bittrex_secret_key: null
 
+hitbtc_api_key: null
+hitbtc_secret_key: null
+
 coinbase_pro_api_key: null
 coinbase_pro_secret_key: null
 coinbase_pro_passphrase: null

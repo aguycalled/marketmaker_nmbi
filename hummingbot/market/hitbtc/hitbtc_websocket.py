@@ -9,9 +9,6 @@ from typing import Dict, Optional, AsyncIterable, Any
 from websockets.exceptions import ConnectionClosed
 from hummingbot.logger import HummingbotLogger
 
-# reusable websocket class
-
-
 class HitBtcWebsocket():
     MESSAGE_TIMEOUT = 30.0
     PING_TIMEOUT = 10.0
@@ -68,6 +65,9 @@ class HitBtcWebsocket():
             self.logger().warning("WebSocket ping timed out. Going to reconnect...")
             return
         except ConnectionClosed:
+            return
+        except Exception as e:
+            self.logger().error(f"WebSocket error '{str(e)}'", exc_info=True)
             return
         finally:
             await self._ws.close()
