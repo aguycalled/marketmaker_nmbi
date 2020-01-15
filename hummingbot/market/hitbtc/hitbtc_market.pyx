@@ -298,7 +298,8 @@ cdef class HitBtcMarket(MarketBase):
                 self.logger().error(f"Error received from {url}. Response is {parsed_response}.")
                 raise HitBtcAPIError({"error": parsed_response})
             if response.status != 200:
-                self.logger().error(f"Error fetching data from {url}. HTTP status is {response.status}.")
+                text = await response.text()
+                self.logger().error(f"Error fetching data from {url}. HTTP status is {response.status}. Method {method} Message {text}")
                 raise HitBtcAPIError({"error": parsed_response})
             return data
 
@@ -393,9 +394,14 @@ cdef class HitBtcMarket(MarketBase):
             "updatedAt": "2019-12-19T13:24:49.616Z"
         }
         """
-        path_url = f"/api/2/order/{order_id}"
 
-        return await self._api_request("GET", params={}, path_url=path_url, is_auth_required=True)
+        path_url = f"/api/2/history/order"
+
+        params = {
+            "clientOrderId" : order_id
+        }
+
+        return await self._api_request("GET", params=params, path_url=path_url, is_auth_required=True)
 
     async def _update_order_status(self):
         cdef:
@@ -408,7 +414,8 @@ cdef class HitBtcMarket(MarketBase):
             for tracked_order in tracked_orders:
                 order_id = tracked_order.client_order_id
                 try:
-                    order_update = await self.get_order_status(order_id)
+                    res = await self.get_order_status(order_id)
+                    order_update = res[0]
                 except HitBtcAPIError as e:
                     err_code = e.error_payload.get("error").get("code")
                     self.c_stop_tracking_order(tracked_order.client_order_id)
