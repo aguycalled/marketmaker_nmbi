@@ -95,7 +95,7 @@ cross_exchange_market_making_config_map = {
     "limit_order_min_expiration": ConfigVar(
         key="limit_order_min_expiration",
         prompt="",
-        default=130.0,
+        default=60.0,
         type_str="float",
         required_if=lambda: False,
     ),

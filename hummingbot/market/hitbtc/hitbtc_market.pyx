@@ -266,7 +266,8 @@ cdef class HitBtcMarket(MarketBase):
                            path_url,
                            params: Optional[Dict[str, Any]] = None,
                            data=None,
-                           is_auth_required: bool = False) -> Dict[str, Any]:
+                           is_auth_required: bool = False,
+                           empty_response: bool = False) -> Dict[str, Any]:
         auth: aiohttp.BasicAuth = None
         content_type = "application/json" if method == "post" else "application/x-www-form-urlencoded"
         headers = {"Content-Type": content_type}
@@ -289,11 +290,11 @@ cdef class HitBtcMarket(MarketBase):
         async with response_coro as response:
             try:
                 parsed_response = await response.json()
-            except Exception:
+            except Exception as e:
                 raise IOError(f"Error parsing data from {url}.")
 
             data = parsed_response
-            if data is None:
+            if (data is None) and not(empty_response):
                 self.logger().error(f"Error received from {url}. Response is {parsed_response}.")
                 raise HitBtcAPIError({"error": parsed_response})
             if response.status != 200:
@@ -377,29 +378,24 @@ cdef class HitBtcMarket(MarketBase):
     async def get_order_status(self, order_id: str) -> Dict[str, Any]:
         """
         Example:
-        [
-            {
-                "id": 1234567890,
-                "clientOrderId": "abcd-1234",
-                "symbol": "ETHUSD",
-                "side": "sell",
-                "status": "new",
-                "type": "limit",
-                "timeInForce": "GTC",
-                "quantity": "0.0001",
-                "price": "250.000",
-                "cumQuantity": "0",
-                "createdAt": "2019-12-19T13:24:49.616Z",
-                "updatedAt": "2019-12-19T13:24:49.616Z"
-            }
-        ]
-        """
-        params = {
-            'clientOrderId': order_id
+        {
+            "id": 1234567890,
+            "clientOrderId": "abcd-1234",
+            "symbol": "ETHUSD",
+            "side": "sell",
+            "status": "new",
+            "type": "limit",
+            "timeInForce": "GTC",
+            "quantity": "0.0001",
+            "price": "250.000",
+            "cumQuantity": "0",
+            "createdAt": "2019-12-19T13:24:49.616Z",
+            "updatedAt": "2019-12-19T13:24:49.616Z"
         }
+        """
+        path_url = f"/api/2/order/{order_id}"
 
-        path_url = f"/api/2/history/order"
-        return await self._api_request("GET", params=params, path_url=path_url, is_auth_required=True)
+        return await self._api_request("GET", params={}, path_url=path_url, is_auth_required=True)
 
     async def _update_order_status(self):
         cdef:
@@ -412,8 +408,7 @@ cdef class HitBtcMarket(MarketBase):
             for tracked_order in tracked_orders:
                 order_id = tracked_order.client_order_id
                 try:
-                    res = await self.get_order_status(order_id)
-                    order_update = res[0]
+                    order_update = await self.get_order_status(order_id)
                 except HitBtcAPIError as e:
                     err_code = e.error_payload.get("error").get("code")
                     self.c_stop_tracking_order(tracked_order.client_order_id)
@@ -764,28 +759,38 @@ cdef class HitBtcMarket(MarketBase):
         if len(open_orders) == 0:
             return []
         cancel_order_symbols = list(set([o.trading_pair for o in open_orders]))
-        self.logger().debug(f"cancel_order_symbols {cancel_order_symbols} {open_orders}")
         path_url = "/api/2/order"
-        data = {"symbol": ','.join(cancel_order_symbols)}
+        data = {"symbol": cancel_order_symbols[0] }
         cancellation_results = []
         try:
             cancel_all_results = await self._api_request(
                 "DELETE",
                 path_url=path_url,
                 data=data,
-                is_auth_required=True
+                is_auth_required=True,
+                empty_response=True
             )
 
+            cancel_all_results = cancel_all_results if cancel_all_results else {}
+
             for item in cancel_all_results:
-                oid = item["clientOrderId"]
-                order = self._in_flight_orders[oid]
-                if item['status'] == 'canceled':
-                    cancellation_results.append(CancellationResult(oid, True))
-                if order in open_orders:
-                    open_orders.remove(order)
+                try:
+                    oid = item["clientOrderId"]
+                    order = self._in_flight_orders[oid]
+                    if item['status'] == 'canceled':
+                        cancellation_results.append(CancellationResult(oid, True))
+                    if order in open_orders:
+                        open_orders.remove(order)
+                except Exception as e:
+                    oid = item['clientOrderId']
+                    self.logger().warning(f"not tracked previous order {oid}")
 
             for order in open_orders:
-                cancellation_results.append(CancellationResult(order['clientOrderId'], False))
+                try:
+                    cancellation_results.append(CancellationResult(order['clientOrderId'], False))
+                except Exception as e:
+                    self.logger().warning(f"not tracked previous order {order}")
+
         except Exception as e:
             self.logger().network(
                 f"Failed to cancel all orders.",

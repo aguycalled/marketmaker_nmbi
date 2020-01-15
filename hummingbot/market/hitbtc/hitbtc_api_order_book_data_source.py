@@ -220,11 +220,10 @@ class HitBtcAPIOrderBookDataSource(OrderBookTrackerDataSource):
         """
         while True:
             try:
-                self.logger().error('listen_for_order_book_diffs')
+                self.logger().debug('listen_for_order_book_diffs')
                 ws = HitBtcWebsocket()
-                self.logger().error(str(ws))
                 trading_pairs: List[str] = await self.get_trading_pairs()
-                self.logger().error(str(trading_pairs))
+                self.logger().debug(str(trading_pairs))
 
                 for trading_pair in trading_pairs:
                     await ws.subscribe("subscribeOrderbook", {
