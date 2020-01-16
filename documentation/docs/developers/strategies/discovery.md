@@ -26,7 +26,7 @@ Assuming we've already fetched the market information from both exchanges, and t
 
 The strategy would calculate the basic stats for every matching trading symbol on both exchanges, and condense them into a Pandas DataFrame table for output. Each row of the table would include the trading symbol, the base asset, the quote asset, the mid, the bid-ask spread %, and 24-hr USD volume.
 
-The basic market stats calculation logic can be found in the function `c_calculate_market_stats()` inside [discovery.pyx](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/strategy/discovery/discovery.pyx).
+The basic market stats calculation logic can be found in the function `c_calculate_market_stats()` inside [discovery.pyx](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/strategy/discovery/discovery.pyx).
 
 ## Arbitrage Profitability Calculation
 
@@ -38,4 +38,4 @@ The calculation is done only for symbols that are trading equivalent assets on b
 
 After the calculation for all matching trading pairs is done, the strategy would condense the results into a Pandas Dataframe table for output. Each row of the table would include the buy exchange name, buy symbol, sell exchange name, sell symbol, potential profit in quote asset, and potential profit in %.
 
-The arbitrage profitability calculation logic can be found int he function `c_calculate_arbitrage_discovery()` inside [discovery.pyx](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/strategy/discovery/discovery.pyx).
+The arbitrage profitability calculation logic can be found int he function `c_calculate_arbitrage_discovery()` inside [discovery.pyx](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/strategy/discovery/discovery.pyx).

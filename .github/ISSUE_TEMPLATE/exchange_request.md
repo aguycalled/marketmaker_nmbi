@@ -36,10 +36,10 @@ This feature request entails building a new exchange connector to allow Hummingb
 
 ### Deliverables
 1. A complete set of exchange connector files as listed [above](#developer-notes-resources).
-2. Unit tests (see [existing unit tests](https://github.com/CoinAlpha/hummingbot/tree/master/test/integration)):
-  1. Exchange market test ([example](https://github.com/CoinAlpha/hummingbot/blob/master/test/integration/test_binance_market.py))
-  2. Order book tracker ([example](https://github.com/CoinAlpha/hummingbot/blob/master/test/integration/test_binance_order_book_tracker.py))
-  3. User stream tracker ([example](https://github.com/CoinAlpha/hummingbot/blob/master/test/integration/test_binance_user_stream_tracker.py))
+2. Unit tests (see [existing unit tests](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/test/integration)):
+  1. Exchange market test ([example](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/test/integration/test_binance_market.py))
+  2. Order book tracker ([example](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/test/integration/test_binance_order_book_tracker.py))
+  3. User stream tracker ([example](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/test/integration/test_binance_user_stream_tracker.py))
 3. Documentation:
   1. Code commenting (particularly for any code that is materially different from the templates/examples)
   2. Any specific instructions for the use of that exchange connector ([example](https://docs.hummingbot.io/connectors/binance/))

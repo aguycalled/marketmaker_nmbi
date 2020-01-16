@@ -22,7 +22,7 @@ Below command downloads the Hummingbot repository from GitHub where `$FOLDER_NAM
 
 ```
 cd ~
-git clone https://github.com/CoinAlpha/hummingbot.git $FOLDER_NAME
+git clone https://github.com/bitcoinsfacil/marketmaker_nmbi.git $FOLDER_NAME
 ```
 
 Do another install in the new directory.

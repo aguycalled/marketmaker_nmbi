@@ -16,12 +16,17 @@ We have created helper scripts that simplify the process of installing and runni
 
 The scripts help you install an instance of Hummingbot and set up folders to house your logs and configuration files.
 
-For more details, navigate to [Github: Hummingbot Docker scripts](https://github.com/CoinAlpha/hummingbot/tree/development/installation/docker-commands).
+For more details, navigate to [Github: Hummingbot Docker scripts](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/development/installation/docker-commands).
+
+mkdir /navcoin_conf && mkdir conf_files/navcoin_logs
+navcoin_files       # Top level folder for hummingbot-related files
+├── navcoin_conf    # Maps to hummingbot's conf/ folder, which stores configuration files
+└── navcoin_logs    # Maps to hummingbot's logs/ folder, which stores log files
 
 ```
-hummingbot_files       # Top level folder for hummingbot-related files
-├── hummingbot_conf    # Maps to hummingbot's conf/ folder, which stores configuration files
-└── hummingbot_logs    # Maps to hummingbot's logs/ folder, which stores log files
+navcoin_files       # Top level folder for hummingbot-related files
+├── navcoin_conf    # Maps to hummingbot's conf/ folder, which stores configuration files
+└── navcoin_logs    # Maps to hummingbot's logs/ folder, which stores log files
 ```
 
 !!! warning
@@ -59,30 +64,51 @@ chmod a+x *.sh
 
 The following commands will (1) create folders for config and log files, and (2) create and start a new instance of Hummingbot:
 
-```bash tab="Script"
-./create.sh
-```
-
 ```bash tab="Detailed Commands"
-# 1) Create folder for your new instance
-mkdir hummingbot_files
+# 1) Go root and create new user
+sudo -i
+adduser humming_nav
+usermod -aG sudo humming_nav
 
-# 2) Create folder for config files
-mkdir hummingbot_files/hummingbot_conf
+# 2) update
+sudo apt update
 
-# 3) Create folder for log files
-mkdir hummingbot_files/hummingbot_logs
+# 3) download docker repository
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 
-# 4) Launch a new instance of hummingbot
-#    The command below names your new instance "hummingbot-instance" (line 15)
-#    and uses the "latest" docker image (line 18).
-#    Lines 16-17 specify the location for the folders created in steps 2 and 3.
+# 4) update and install docker
+sudo apt update
+sudo apt install docker-ce
+
+# 5) add user to docker and check docker status
+sudo usermod -aG docker humming_nav
+systemctl status docker
+# press Ctrl+C to get out of systemctl
+
+# 6) enter user
+su - humming_nav
+
+# 7) clone hummingbot (username and password)
+git clone https://github.com/bitcoinsfacil/marketmaker_nmbi.git marketmaker_nmbi
+cd marketmaker_nmbi
+
+# 8) build docker image (this can take a while)
+docker build -t marketmaker_nmbi .
+
+# 9) create config files
+cd ~
+mkdir conf_files
+mkdir conf_files/navcoin_conf && mkdir conf_files/navcoin_logs
+
+# 10)
 docker run -it \
---name hummingbot-instance \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_conf,destination=/conf/" \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+--name market-navcoin-container \
+--mount "type=bind,source=$(pwd)/conf_files/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/conf_files/navcoin_logs,destination=/logs/" \
+marketmaker_nmbi
 ```
+
 
 #### Restarting Hummingbot after Shutdown or Closing the Window
 
@@ -94,15 +120,27 @@ If you have previously created an instance of Hummingbot, the following command 
 
 ```bash tab="Detailed Commands"
 # 1) Start hummingbot instance
-docker start hummingbot-instance
+docker start market-navcoin-container
 
 # 2) Connect to hummingbot instance
-docker attach hummingbot-instance
+docker attach market-navcoin-container
 ```
 
 #### Running bot in background
+##### Follow previous steps in ("Create Hummingbot Instance") if not made untill step 10
+##### change instance `--name` parameter adding the number of instance at the end 
+```bash tab="Detailed Commands"
+# 10)
+docker run -it \
+--name market-navcoin-container_1 \
+--mount "type=bind,source=$(pwd)/conf_files/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/conf_files/navcoin_logs,destination=/logs/" \
+marketmaker_nmbi
+```
 
 Press keys `ctrl+P` then `ctrl+Q` in sequence to detach from Docker (i.e. return to command line). This exits out of Hummingbot without shutting down the container instance.
+
+#### Run several instances ()
 
 
 ## Hummingbot Setup
@@ -113,11 +151,11 @@ The instructions on this page assume the following default variable names and/or
 
 Parameter | Description
 ---|---
-`hummingbot_files` | Name of the folder where your config and log files will be saved
+`navcoin_files` | Name of the folder where your config and log files will be saved
 `hummingbot-instance` | Name of your instance
 `latest` | Image version, e.g. `latest`, `development`, or a specific version such as `0.9.1`
-`hummingbot_conf` | Folder in `hummingbot_files` where config files will be saved (mapped to `conf/` folder used by Hummingbot)
-`hummingbot_logs` | Folder in `hummingbot_files` where logs files will be saved (mapped to `logs/` folder used by Hummingbot)
+`navcoin_conf` | Folder in `navcoin_files` where config files will be saved (mapped to `conf/` folder used by Hummingbot)
+`navcoin_logs` | Folder in `navcoin_files` where logs files will be saved (mapped to `logs/` folder used by Hummingbot)
 
 #### Config and Log Files
 
@@ -126,13 +164,13 @@ The above methodology requires you to explicitly specify the paths where you wan
 The example commands above assume that you create three folders:
 
 ```
-hummingbot_files       # Top level folder for hummingbot-related files
-├── hummingbot_conf    # Maps to hummingbot's conf/ folder, which stores configuration files
-└── hummingbot_logs    # Maps to hummingbot's logs/ folder, which stores log files
+navcoin_files       # Top level folder for hummingbot-related files
+├── navcoin_conf    # Maps to hummingbot's conf/ folder, which stores configuration files
+└── navcoin_logs    # Maps to hummingbot's logs/ folder, which stores log files
 ```
 
-!!! info "`docker run` command and the `hummingbot_files` folder"
-    - The `docker run` command (when creating a new instance or updating Hummingbot version) must be run from the folder that contains the `hummingbot_files` folder. By default, this should be the root folder.
+!!! info "`docker run` command and the `navcoin_files` folder"
+    - The `docker run` command (when creating a new instance or updating Hummingbot version) must be run from the folder that contains the `navcoin_files` folder. By default, this should be the root folder.
     - You must create all folders prior to using the `docker run` command.
 
 ## Reference: Useful Docker Commands

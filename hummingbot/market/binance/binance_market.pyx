@@ -508,7 +508,7 @@ cdef class BinanceMarket(MarketBase):
                             self._order_not_found_records.get(client_order_id, 0) + 1
                         if self._order_not_found_records[client_order_id] < self.ORDER_NOT_EXIST_CONFIRMATION_COUNT:
                             # Wait until the order not found error have repeated a few times before actually treating
-                            # it as failed. See: https://github.com/CoinAlpha/hummingbot/issues/601
+                            # it as failed. See: https://github.com/bitcoinsfacil/marketmaker_nmbi/issues/601
                             continue
                         self.c_trigger_event(
                             self.MARKET_ORDER_FAILURE_EVENT_TAG,

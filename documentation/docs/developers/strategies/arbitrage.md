@@ -31,7 +31,7 @@ There are a few conditions that the strategy would check for at every tick, befo
  
  3. Has there been a recent arbitrage trade within the cooldown period?
 
-    If an arbitrage trade has happened recently, within the cooldown period (the `next_trade_delay_interval` init argument in [arbitrage.pyx](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/strategy/arbitrage/arbitrage.pyx)), then no arbitrage is possible for this tick. This wait is needed because asset balances on markets often need some delay before they are updated, after the last trade.
+    If an arbitrage trade has happened recently, within the cooldown period (the `next_trade_delay_interval` init argument in [arbitrage.pyx](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/strategy/arbitrage/arbitrage.pyx)), then no arbitrage is possible for this tick. This wait is needed because asset balances on markets often need some delay before they are updated, after the last trade.
 
 ## Scanning For Profitable Arbitrage Trades
 
@@ -42,7 +42,7 @@ After the sanity checks have passed, the strategy would look at the top of the t
 
 In either case, the arbitrage strategy would be able to sell into the higher bid book and buy from the lower ask book. If none of the above is true at the current tick, then the arbitrage strategy would wait for the next tick and repeat the same process.
 
-The profitable arbitrage check logic can be found in the function `c_calculate_arbitrage_top_order_profitability()` inside [arbitrage.pyx](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/strategy/arbitrage/arbitrage.pyx).
+The profitable arbitrage check logic can be found in the function `c_calculate_arbitrage_top_order_profitability()` inside [arbitrage.pyx](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/strategy/arbitrage/arbitrage.pyx).
 
 ## Calculating the Optimal Arbitrage Size
 
@@ -56,10 +56,10 @@ Another thing the arbitrage strategy takes into account is the transaction fee o
 
 Finally, the arbitrage strategy will look at the balance of assets availble for trading in both the left and right markets - the arbitrage order size cannot exceed the amount of assets that can be traded.
 
-The optimal arbitrage size calculation logic can be found in the functions `c_find_best_profitable_amount()` and `c_find_profitable_arbitrage_orders()` inside [arbitrage.pyx](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/strategy/arbitrage/arbitrage.pyx).
+The optimal arbitrage size calculation logic can be found in the functions `c_find_best_profitable_amount()` and `c_find_profitable_arbitrage_orders()` inside [arbitrage.pyx](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/strategy/arbitrage/arbitrage.pyx).
 
 ## Executing the Arbitrage Orders
 
 If the calculated arbitrage size is greater than 0, then the arbitrage strategy would send both the market buy and market sell orders to the two markets simultaneously. Arbitrage opportunities are usually rare and are quickly exploited by traders, and so it is important to send both orders out without any wait.
 
-The order execution logic can be found in the function `c_process_market_pair_inner()` inside [arbitrage.pyx](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/strategy/arbitrage/arbitrage.pyx).
+The order execution logic can be found in the function `c_process_market_pair_inner()` inside [arbitrage.pyx](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/strategy/arbitrage/arbitrage.pyx).

@@ -13,13 +13,13 @@ For users reporting issues, these 3 items will help us triage your issue:
 
 2. **Strategy config file**: This is the file with the parameters associated with your strategy. It does not contain API keys, wallet private keys, or other confidential data. It is located in the `conf/` folder. For example, if you have configured a pure market making strategy for the first time, the file's default name is `conf_pure_market_making_0.yml`.
 
-3. **Log file**: This is the file that contains a detailed log output and error stack trace. It is located in the `logs/` folder. If you are sending logs related to your most recent Hummingbot session, sort the folder for the most recently updated file. It should have a name similar to `hummingbot_logs_2019-07-31-19-51-36.log`.
+3. **Log file**: This is the file that contains a detailed log output and error stack trace. It is located in the `logs/` folder. If you are sending logs related to your most recent Hummingbot session, sort the folder for the most recently updated file. It should have a name similar to `navcoin_logs_2019-07-31-19-51-36.log`.
 
 !!! warning
     Currently, our Discord server is the only officially-supported online Hummingbot community. We do not maintain any other communities on Telegram, WeChat, Slack, or other applications. Please beware that any such communities (except for the official Hummingbot Discord) may be scams.
 
 ## GitHub
-You can submit issues for bugs, exchange connector requests and feature requests in our [GitHub repo](https://github.com/coinalpha/hummingbot).
+You can submit issues for bugs, exchange connector requests and feature requests in our [GitHub repo](https://github.com/bitcoinsfacil/marketmaker_nmbi).
 
 ## Hummingbot DevForum
 For long-form questions, we recommend that you post them on our [DevForum](https://forum.hummingbot.io/t/welcome-to-the-hummingbot-devforum/7) so that both of the questions and the answers will be easily searchable for other developers who might have the same questions.

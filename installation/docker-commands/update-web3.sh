@@ -38,7 +38,7 @@ do
   if [ "$INSTANCE_NAME" == "" ];
   then
     INSTANCE_NAME="hummingbot-instance"
-    DEFAULT_FOLDER="hummingbot_files"
+    DEFAULT_FOLDER="navcoin_files"
   else
     DEFAULT_FOLDER="${INSTANCE_NAME}_files"
   fi
@@ -103,8 +103,8 @@ then
     docker run -itd \
     --network="host" \
     --name ${INSTANCES[$j]} \
-    --mount "type=bind,source=$(pwd)/${FOLDERS[$j]}/hummingbot_conf,destination=/conf/" \
-    --mount "type=bind,source=$(pwd)/${FOLDERS[$j]}/hummingbot_logs,destination=/logs/" \
+    --mount "type=bind,source=$(pwd)/${FOLDERS[$j]}/navcoin_conf,destination=/conf/" \
+    --mount "type=bind,source=$(pwd)/${FOLDERS[$j]}/navcoin_logs,destination=/logs/" \
     coinalpha/hummingbot:$TAG
     j=$[$j+1]
   done

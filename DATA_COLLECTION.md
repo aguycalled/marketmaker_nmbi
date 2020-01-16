@@ -1,6 +1,6 @@
 # Important Disclosure re: Hummingbot Data Collection
  
-Hummingbot (“Hummingbot”) is open-source software developed and maintained by CoinAlpha, Inc. (“CoinAlpha”, “we”, or “us”) and available at https://github.com/coinalpha/hummingbot.
+Hummingbot (“Hummingbot”) is open-source software developed and maintained by CoinAlpha, Inc. (“CoinAlpha”, “we”, or “us”) and available at https://github.com/bitcoinsfacil/marketmaker_nmbi.
 
 CoinAlpha collects usage information from Users that have configured Hummingbot to allow for the sharing of this data.
 
@@ -45,7 +45,7 @@ Hummingbot will never collect and/or report sensitive information, such as priva
 
 ## How do I opt-out of data sharing or set what I am willing to share?
 
-Users have the ability to fully customize the Usage Data that they are willing to share by setting the `hummingbot_logs.yml` file in the `logs/` folder.  We also provide templates ([logging configuration templates](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/templates/log_templates)) as examples of different levels of logging available to users.
+Users have the ability to fully customize the Usage Data that they are willing to share by setting the `hummingbot_logs.yml` file in the `logs/` folder.  We also provide templates ([logging configuration templates](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/templates/log_templates)) as examples of different levels of logging available to users.
 
 If you still have questions about how to opt-out of or modify data collection, reach out to [support@hummingbot.io](mailto:support@hummingbot.io) and we will be happy to assist.
 

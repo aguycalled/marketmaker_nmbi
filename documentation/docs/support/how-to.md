@@ -16,7 +16,7 @@ Look for a field `Mounts`, which will describe where the folders are on you loca
 "Mounts": [
     {
         "Type": "bind",
-        "Source": "/home/ubuntu/hummingbot_files/hummingbot_conf",
+        "Source": "/home/ubuntu/navcoin_files/navcoin_conf",
         "Destination": "/conf",
         "Mode": "",
         "RW": true,
@@ -24,7 +24,7 @@ Look for a field `Mounts`, which will describe where the folders are on you loca
     },
     {
         "Type": "bind",
-        "Source": "/home/ubuntu/hummingbot_files/hummingbot_logs",
+        "Source": "/home/ubuntu/navcoin_files/navcoin_logs",
         "Destination": "/logs",
         "Mode": "",
         "RW": true,
@@ -38,7 +38,7 @@ Look for a field `Mounts`, which will describe where the folders are on you loca
 
 #### How do I edit the conf files or access the log files used by my docker instance?
 
-If Hummingbot is installed on your local machine, you can access the files from your local file system in the `hummingbot_conf` and `hummingbot_logs` folder. The docker instance reads from/writes to these local files.
+If Hummingbot is installed on your local machine, you can access the files from your local file system in the `navcoin_conf` and `navcoin_logs` folder. The docker instance reads from/writes to these local files.
 
 If Hummingbot is installed on a virtual machine, you can use the `vi` text editor (or any text editor of your choice). Do command `vi $filename`. See [this page](https://www.tipsandtricks-hq.com/unix-vi-commands-take-advantage-of-the-unix-vi-editor-374) for more information how to use this text editor.
 
@@ -130,12 +130,12 @@ docker rm my-hummingbot && \
 # Remove old image
 docker image rm coinalpha/hummingbot:latest && \
 # Rename file folder
-sudo mv my-hummingbot hummingbot_files && \
+sudo mv my-hummingbot navcoin_files && \
 # Start new instance
 docker run -it \
 --name hummingbot-instance \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_conf,destination=/conf/" \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_logs,destination=/logs/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
 coinalpha/hummingbot:latest
 ```
 
@@ -147,12 +147,12 @@ docker rm my-instance-1 && \
 # Remove old image
 docker image rm coinalpha/hummingbot:latest && \
 # Rename file folder
-sudo mv my-hummingbot hummingbot_files && \
+sudo mv my-hummingbot navcoin_files && \
 # Start new instance
 docker run -it \
 --name hummingbot-instance \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_conf,destination=/conf/" \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_logs,destination=/logs/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
 coinalpha/hummingbot:latest
 ```
 

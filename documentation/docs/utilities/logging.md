@@ -8,17 +8,17 @@ The way that log files are structured is contained within `conf/hummingbot_logs.
 
 ## Disable Data Collection
 
-CoinAlpha collects usage information from users to allow for the sharing of this data as stated in [Important Disclosure re: Hummingbot Data Collection](https://github.com/CoinAlpha/hummingbot/blob/master/DATA_COLLECTION.md#important-disclosure-re-hummingbot-data-collection).
+CoinAlpha collects usage information from users to allow for the sharing of this data as stated in [Important Disclosure re: Hummingbot Data Collection](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/DATA_COLLECTION.md#important-disclosure-re-hummingbot-data-collection).
 
-This can be turned off by modifying `hummingbot_logs.yml` file with this [template](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/templates/log_templates/hummingbot_logs_none_TEMPLATE.yml).
+This can be turned off by modifying `hummingbot_logs.yml` file with this [template](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/templates/log_templates/navcoin_logs_none_TEMPLATE.yml).
 
 ## Viewing Individual Log Files
 
 For users who wish to locate and submit log files, generally they are located in the `/logs` folder. Specific path or location may vary depending on the environment and how Hummingbot was installed.
 
-- Installed from source: `hummingbot/logs`
-- Installed via Docker: `hummingbot_files/hummingbot_logs`
-    - `hummingbot_files` is the default name of the parent directory. This can be different depending on the setup when the instance was created.
+- Installed from source: `marketmaker_nmbi/logs`
+- Installed via Docker: `conf_files/navcoin_logs`
+    - `conf_files` is the default name of the parent directory. This can be different depending on the setup when the instance was created.
 - Installed via Binary (Windows): `%localappdata%\hummingbot.io\Hummingbot\logs`
 - Installed via Binary (MacOS): `~/Library/Application\ Support/Hummingbot/Logs`
 

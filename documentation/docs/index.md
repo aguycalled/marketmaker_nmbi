@@ -2,7 +2,7 @@
 Welcome to the official documentation site for Hummingbot!
 
 !!! warning "Warning: Beta Software"
-    Hummingbot is experimental, open source software that is still in beta, and you use it at your own risk. Please review the [Apache 2.0 license](https://github.com/CoinAlpha/hummingbot/blob/master/LICENSE).
+    Hummingbot is experimental, open source software that is still in beta, and you use it at your own risk. Please review the [Apache 2.0 license](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/LICENSE).
 
 
 ## What is Hummingbot?
@@ -26,4 +26,4 @@ New to Hummingbot? Here are some helpful links to get you started!
 * [Cheatsheets](/cheatsheets): Quick reference for common Hummingbot commands
 * [Support](/support): Various ways to get support in using Hummingbot
 * [Troubleshooting](/support/troubleshooting/general): Common issues and how to resolve them
-* [中文 Github repo](https://github.com/coinalpha/hummingbot_chinese): General information about Hummingbot, translated into Mandarin Chinese
+* [中文 Github repo](https://github.com/bitcoinsfacil/marketmaker_nmbi_chinese): General information about Hummingbot, translated into Mandarin Chinese

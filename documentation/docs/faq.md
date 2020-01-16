@@ -30,7 +30,7 @@ We send out updates and announcements through our [Discord channel](https://disc
 
 ### What open source license does Hummingbot use?
 
-Hummingbot is licensed under [Apache 2.0](https://github.com/CoinAlpha/hummingbot/blob/master/LICENSE).
+Hummingbot is licensed under [Apache 2.0](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/LICENSE).
 
 ### How much cryptocurrency do I need to get started?
 
@@ -82,4 +82,4 @@ We only utilize user data for the purposes listed above. CoinAlpha and our emplo
 
 ### Can I opt-out of sharing my usage data?
 
-Absolutely - the logger configuration file is fully editable. In addition, we maintain [templates](https://github.com/coinalpha/hummingbot/blob/master/hummingbot/templates) that users can use to override the default configuration settings.
+Absolutely - the logger configuration file is fully editable. In addition, we maintain [templates](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/templates) that users can use to override the default configuration settings.

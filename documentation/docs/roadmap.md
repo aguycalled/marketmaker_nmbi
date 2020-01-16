@@ -36,7 +36,7 @@ The timeline below shows the past milestones we have completed, along with the f
 * Released connector for [Liquid](https://liquid.com/)
 * Released connector for [Bitcoin Exchange](https://exchange.bitcoin.com/)
 * Add support for 0x v3
-* Connector for [KuCoin](https://www.kucoin.com/) ([in progress](https://github.com/CoinAlpha/hummingbot/pull/1011))
+* Connector for [KuCoin](https://www.kucoin.com/) ([in progress](https://github.com/bitcoinsfacil/marketmaker_nmbi/pull/1011))
 
 ## Q1 2020
 * Liquidity Mining Launch: Wave 1 (mid-January)

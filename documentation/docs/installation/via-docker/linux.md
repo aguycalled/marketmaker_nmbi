@@ -230,4 +230,4 @@ coinalpha/hummingbot:latest
 
 ## Developer Notes
 
-- Additional details of the scripts can be found on [Github: Hummingbot Install with Docker](https://github.com/CoinAlpha/hummingbot/tree/development/installation/install-docker).
+- Additional details of the scripts can be found on [Github: Hummingbot Install with Docker](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/development/installation/install-docker).

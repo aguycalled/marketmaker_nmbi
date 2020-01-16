@@ -36,7 +36,7 @@ When running `config`, you are asked to select a strategy and enter strategy-spe
 
 This configuration files created and used by Hummingbot are saved in the `conf/` directory of your instance, which you can edit directly with a standard text editor.
 
-The template configuration files can be found here: [Config Templates](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/templates).
+The template configuration files can be found here: [Config Templates](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/templates).
 
 !!! warning
     Exit Hummingbot and ensure it is not running when you modify the config files. Changes will take effect the next time Hummingbot is started.

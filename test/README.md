@@ -6,7 +6,7 @@ Add -v to nosetests for logging to see what the tests are doing and what errors 
 nosetests -v test_coinbase_pro_market.py
 ```
 
-Make sure to create ENV vars found [here](https://github.com/CoinAlpha/hummingbot/blob/c71bc06cbcd7c346c09ac8868e802558f114bbf1/conf/__init__.py#L42) for the keys. For example, run this before running the Coinbase Pro market test.
+Make sure to create ENV vars found [here](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/c71bc06cbcd7c346c09ac8868e802558f114bbf1/conf/__init__.py#L42) for the keys. For example, run this before running the Coinbase Pro market test.
 
 ```
 export COINBASE_PRO_API_KEY=<INSERT>

@@ -6,7 +6,7 @@ site_url: 'https://docs.hummingbot.io'
 
 # Repository
 repo_name: 'coinalpha/hummingbot'
-repo_url: 'https://github.com/coinalpha/hummingbot'
+repo_url: 'https://github.com/bitcoinsfacil/marketmaker_nmbi'
 edit_uri: 'blob/master/documentation/docs/'
 
 # Copyright
@@ -34,7 +34,7 @@ extra:
     - type: 'globe'
       link: 'https://www.hummingbot.io'
     - type: 'github'
-      link: 'https://github.com/coinalpha/hummingbot'
+      link: 'https://github.com/bitcoinsfacil/marketmaker_nmbi'
     - type: 'twitter'
       link: 'https://twitter.com/hummingbot_io'
 google_analytics:
@@ -102,7 +102,7 @@ nav:
           - IDEX Errors: support/troubleshooting/idex.md
         - Common 'How To' Questions: support/how-to.md
         - Contact and Support: support/index.md
-        - 中文 Github repo: https://github.com/coinalpha/hummingbot_chinese
+        - 中文 Github repo: https://github.com/bitcoinsfacil/marketmaker_nmbi_chinese
     - User Manual:
       - Intro: manual.md
       - Installation:

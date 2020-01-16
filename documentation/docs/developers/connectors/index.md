@@ -16,15 +16,15 @@ Component | Function
 
 ## Examples / templates
 
-There are [existing connectors](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market) (each folder contained here is a different exchange connector) that can serve as a template for creating a new exchange connector.
+There are [existing connectors](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market) (each folder contained here is a different exchange connector) that can serve as a template for creating a new exchange connector.
 
 Building a new exchange connector requires conforming to the template code to the new exchange's APIs, identifying and handling any differences in functions/behaviors, and testing the new exchange connector on that exchange.
 
-- Centralized exchange: [Binance](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market/binance), [Coinbase Pro](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market/coinbase_pro), [Huobi](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market/huobi), [Bittrex](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market/bittrex)
-- Ethereum DEX (0x open order book): [Radar Relay](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market/radar_relay)
-- Ethereum DEX (0x open order book w/coordinator support): [Bamboo Relay](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market/bamboo_relay)
-- Ethereum DEX (matcher model): [DDEX](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market/ddex)
-- Ethereum DEX (deposit/redeem model): [IDEX](https://github.com/CoinAlpha/hummingbot/tree/master/hummingbot/market/idex)
+- Centralized exchange: [Binance](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market/binance), [Coinbase Pro](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market/coinbase_pro), [Huobi](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market/huobi), [Bittrex](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market/bittrex)
+- Ethereum DEX (0x open order book): [Radar Relay](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market/radar_relay)
+- Ethereum DEX (0x open order book w/coordinator support): [Bamboo Relay](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market/bamboo_relay)
+- Ethereum DEX (matcher model): [DDEX](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market/ddex)
+- Ethereum DEX (deposit/redeem model): [IDEX](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/hummingbot/market/idex)
 
 ## Placing and tracking orders
 
@@ -47,11 +47,11 @@ The `execute_buy` and `execute_sell` methods verify that the trades would be leg
 
 ## Exchange connector requirements
 1. A complete set of exchange connector files as listed [above](#exchange-connector-files).
-2. Unit tests (see [existing unit tests](https://github.com/CoinAlpha/hummingbot/tree/master/test/integration)):
+2. Unit tests (see [existing unit tests](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/test/integration)):
 
-    1. Exchange market test ([example](https://github.com/CoinAlpha/hummingbot/blob/master/test/integration/test_binance_market.py))
-    2. Order book tracker ([example](https://github.com/CoinAlpha/hummingbot/blob/master/test/integration/test_binance_order_book_tracker.py))
-    3. User stream tracker ([example](https://github.com/CoinAlpha/hummingbot/blob/master/test/integration/test_binance_user_stream_tracker.py))
+    1. Exchange market test ([example](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/test/integration/test_binance_market.py))
+    2. Order book tracker ([example](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/test/integration/test_binance_order_book_tracker.py))
+    3. User stream tracker ([example](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/test/integration/test_binance_user_stream_tracker.py))
 
 3. Documentation:
 
@@ -70,7 +70,7 @@ We encourage and welcome contributions from the community, subject to the guidel
 ### Guidelines for community developers
 1. Provide a point of contact to the Hummingbot team.
 1. Commitment to connector maintenance and keeping it up to date with Hummingbot releases. <br/>*Any connectors that are not kept up to date or have unaddressed bugs will be removed from subsequent releases of Hummingbot unless such issues are resolved.*
-1. Adhere to [contributing guide](https://github.com/CoinAlpha/hummingbot/blob/master/CONTRIBUTING.md), code conventions used in the Hummingbot repo, and these guidelines outlined here.
+1. Adhere to [contributing guide](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/CONTRIBUTING.md), code conventions used in the Hummingbot repo, and these guidelines outlined here.
 1. Complete all of the work listed in [Exchange connector requirements](#exchange-connector-requirements).
 1. Address any comments or issues raised by the Hummingbot development team during the code review process.
 1. Notify the Hummingbot team and community of any known issues are bugs that are discovered.

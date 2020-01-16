@@ -22,8 +22,8 @@ docker image rm coinalpha/hummingbot:latest
 # 3) Re-create instance with latest hummingbot release
 docker run -it \
 --name hummingbot-instance \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_conf,destination=/conf/" \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_logs,destination=/logs/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
 coinalpha/hummingbot:latest
 ```
 

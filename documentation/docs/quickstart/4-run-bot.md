@@ -69,8 +69,8 @@ To restart Hummingbot via Docker, run the `start.sh` helper script from the comm
 Hummingbot automatically saves your **global config file** and **strategy config file**, so you can import these settings without entering them again:
 
 ```
-hummingbot_files                                  # Top level folder for your instance
-└── hummingbot_conf                               # Folder for configuration files (maps to conf/ folder)
+navcoin_files                                  # Top level folder for your instance
+└── navcoin_conf                               # Folder for configuration files (maps to conf/ folder)
     ├── conf_global.yml                           # Auto-saved global config file
     └── conf_pure_market_making_strategy_0.yml    # Auto-saved strategy config file
 ```

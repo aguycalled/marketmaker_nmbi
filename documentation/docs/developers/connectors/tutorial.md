@@ -23,7 +23,7 @@ The `OrderBookTracker` contains subsidiary classes that help maintain the real-t
 
 The `OrderBookTrackerDataSource` class is responsible for making API calls and/or WebSocket queries to obtain order book snapshots, order book deltas and miscellaneous information on order book.
 
-Integrating your own data source component would require you to extend from the `OrderBookTrackerDataSource` base class [here](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/data_type/order_book_tracker_data_source.py).
+Integrating your own data source component would require you to extend from the `OrderBookTrackerDataSource` base class [here](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/core/data_type/order_book_tracker_data_source.py).
 
 The table below details the **required** functions in `OrderBookTrackerDataSource`:
 
@@ -31,7 +31,7 @@ Function<div style="width:200px"/> | Input Parameter(s) | Expected Output(s) | D
 ---|---|---|---
 `get_active_exchange_markets` | None | `pandas.DataFrame` | Performs the necessary API request(s) to get all currently active trading pairs on the exchange and returns a `pandas.DataFrame` with each row representing one active trading pair.<br/><br/><table><tbody><tr><td bgcolor="#ecf3ff">**Note**: If none of the API requests returns a traded `USDVolume` of a trading pair, you are required to calculate it and include it as a column in the `DataFrame`.<br/><br/>Also the the base and quote currency should be represented under the `baseAsset` and `quoteAsset` columns respectively in the `DataFrame`.<br/><br/> Refer to [Calling a Class method](#calling-a-class-method) for an example on how to test this particular function.</td></tr></tbody></table>
 `get_trading_pairs` | None | `List[str]` | Calls `get_active_exchange_market` to retrieve a list of active trading pairs.<br/><br/>Ensure that all trading pairs are in the right format.
-`get_snapshot` | client: `aiohttp.ClientSession`, trading_pair: `str` | `Dict[str, any]` | Fetches order book snapshot for a particular trading pair from the exchange REST API. <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: Certain exchanges do not add a timestamp/nonce to the snapshot response. In this case, to maintain a real-time order book would require generating a timestamp for every order book snapshot and delta messages received and applying them accordingly.<br/><br/>In [Bittrex](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/bittrex/bittrex_api_order_book_data_source.py), this is performed by invoking the `queryExchangeState` topic on the SignalR WebSocket client.</td></tr></tbody></table>
+`get_snapshot` | client: `aiohttp.ClientSession`, trading_pair: `str` | `Dict[str, any]` | Fetches order book snapshot for a particular trading pair from the exchange REST API. <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: Certain exchanges do not add a timestamp/nonce to the snapshot response. In this case, to maintain a real-time order book would require generating a timestamp for every order book snapshot and delta messages received and applying them accordingly.<br/><br/>In [Bittrex](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/market/bittrex/bittrex_api_order_book_data_source.py), this is performed by invoking the `queryExchangeState` topic on the SignalR WebSocket client.</td></tr></tbody></table>
 `get_tracking_pairs` | None | `Dict[str, OrderBookTrackerEntry]` | Initializes order books and order book trackers for the list of trading pairs. 
 `listen_for_trades` | ev_loop: `asyncio.BaseEventLoop`, output: `asyncio.Queue` | None | Subscribes to the trade channel of the exchange. Adds incoming messages(of filled orders) to the `output` queue, to be processed by 
 `listen_for_order_book_diffs` | ev_loop: `asyncio.BaseEventLoop`, output: `asyncio.Queue` | None | Fetches or Subscribes to the order book snapshots for each trading pair. Additionally, parses the incoming message into a `OrderBookMessage` and appends it into the `output` Queue.
@@ -61,7 +61,7 @@ Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | D
 
 The `OrderBookTracker` class is responsible for maintaining a real-time order book on the Hummingbot client. By using the subsidiary classes like `OrderBookTrackerDataSource` and `ActiveOrderTracker`(as required), it applies the market snapshot/delta messages onto the order book.
 
-Integrating your own tracker would require you to extend from the `OrderBookTracker` base class [here](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/data_type/order_book_tracker.py).
+Integrating your own tracker would require you to extend from the `OrderBookTracker` base class [here](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/core/data_type/order_book_tracker.py).
 
 The table below details the **required** functions to be implemented in `OrderBookTracker`:
 
@@ -73,11 +73,11 @@ Function<div style="width:200px"/> | Input Parameter(s) | Expected Output(s) | D
 `_order_book_diff_router` | None | None | Route the real-time order book diff messages to the correct order book.<br/><br/>Each tracked trading pair has their own `_saved_message_queues`, this would subsequently be used by `_track_single_book` to apply the messages onto the respective order book.
 `_order_book_snapshot_router` | None | None | Route the real-time order book snapshot messages to the correct order book.<br/><br/>Each tracked trading pair has their own `_saved_message_queues`, this would subsequently be used by `_track_single_book` to apply the messages onto the respective order book.
 `_track_single_book` | None | None | Update an order book with changes from the latest batch of received messages.<br/>Constantly attempts to retrieve the next available message from `_save_message_queues` and applying the message onto the respective order book.<br/><table><tbody><tr><td bgcolor="#ecf3ff">**Note**: Might require `convert_[snapshot|diff]_message_to_order_book_row` from the `ActiveOrderTracker` to convert the messages into `OrderBookRow`</td></tr></tbody></table>
-`start` | None | None | Start all custom listeners and tasks in the `OrderBookTracker` component. <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: You may be required to call `start` in the base class by using `await super().start()`. This is **optional** as long as there is a task listening for trade messages and emitting the `TradeEvent` as seen in `c_apply_trade` in [`OrderBook`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/data_type/order_book.pyx) </td></tr></tbody></table>
+`start` | None | None | Start all custom listeners and tasks in the `OrderBookTracker` component. <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: You may be required to call `start` in the base class by using `await super().start()`. This is **optional** as long as there is a task listening for trade messages and emitting the `TradeEvent` as seen in `c_apply_trade` in [`OrderBook`](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/core/data_type/order_book.pyx) </td></tr></tbody></table>
 
 #### Additional Useful Function(s)
 
-The table below details some functions already implemented in the [`OrderBookTracker`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/data_type/order_book_tracker.py) base class:
+The table below details some functions already implemented in the [`OrderBookTracker`](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/core/data_type/order_book_tracker.py) base class:
 
 Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | Description
 ---|---|---|---
@@ -119,14 +119,14 @@ This can be achieved in 2 ways(depending on the available API on the exchange):
 1. **REST API**
 
     In this scenario, we would have to periodically make API requests to the exchange to retrieve information on the user's **account balances** and **order statuses**.
-    An example of this can be seen in the [Huobi](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/huobi/huobi_market.pyx) connector.
+    An example of this can be seen in the [Huobi](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/market/huobi/huobi_market.pyx) connector.
 
 2. **WebSocket API**
 
     When an exchange does have WebSocket API support to retrieve user account details and order statuses, it would be ideal to incorporate it into the Hummingbot client when managing account balances and updating order statuses. This is especially important since Hummingbot needs knows to the available account balances and order statuses at all times. 
     
     !!! tip 
-        In most scenarios, as seen in most other Centralized Exchanges([Binance](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/binance/binance_user_stream_tracker.py), [Coinbase Pro](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/coinbase_pro/coinbase_pro_user_stream_tracker.py), [Bittrex](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/bittrex/bittrex_user_stream_tracker.py)), a simple WebSocket integration is used to listen on selected topics and retrieving messages to be processed in `Market` class.
+        In most scenarios, as seen in most other Centralized Exchanges([Binance](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/market/binance/binance_user_stream_tracker.py), [Coinbase Pro](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/market/coinbase_pro/coinbase_pro_user_stream_tracker.py), [Bittrex](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/market/bittrex/bittrex_user_stream_tracker.py)), a simple WebSocket integration is used to listen on selected topics and retrieving messages to be processed in `Market` class.
 
 The table below details the **required** functions to be implemented in `UserStreamTracker`:
 
@@ -235,7 +235,7 @@ Function<div style="width:150px"/> | Description
 
 Trading Rules are defined by the respective exchanges. It is crucial that Hummingbot manage and maintain the set of trading rules to ensure that there will be no issues when placing orders.
 
-A list of some common rules can be seen in [`trading_rule.pyx`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/trading_rule.pyx).
+A list of some common rules can be seen in [`trading_rule.pyx`](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/market/trading_rule.pyx).
 
 !!! tip
     Most exchanges have a minimum trading size. Not all rules need to be defined, however, it is essential to meet the rules as specified by the exchange.
@@ -248,7 +248,7 @@ Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | D
 ---|---|---|---
 `_trading_rules_polling_loop` | None | None | A background process that periodically polls for trading rule changes. Since trading rules tend not to change as often as account balances and order statuses, this is done less often. THis function is responsible for calling `_update_trading_rules`
 `_update_trading_rules` | None | None | Gets the necessary trading rules definitions form the corresponding REST API endpoints. Calls `_format_trading_rules`; that parses and updates the `_trading_rules` variable in the `Market` class.
-`_format_trading_rules` | `List[Any]` | `List[TradingRule]` | Parses the raw JSON response into a list of [`TradingRule`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/market/trading_rule.pyx). <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: This is important since exchanges might only accept certain precisions and impose a minimum trade size on the order.</td></tr></tbody></table>
+`_format_trading_rules` | `List[Any]` | `List[TradingRule]` | Parses the raw JSON response into a list of [`TradingRule`](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/market/trading_rule.pyx). <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: This is important since exchanges might only accept certain precisions and impose a minimum trade size on the order.</td></tr></tbody></table>
 
 #### Order Price/Size Quantum & Quantize Order Amount
 
@@ -288,7 +288,7 @@ Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | D
 `check_network` | `None` | `NetworkStatus` | `An asynchronous function used by `NetworkBase` class to check if the market is online/offline.
 `get_order` | `client_order_id:str`| `Dict[str, Any]` | Gets status update for a particular order via rest API.<br/><br/><table><tbody><tr><td bgcolor="#ecf3ff">**Note**: You are required to retrieve the exchange order ID for the specified `client_order_id`. You can do this by calling the `get_exchange_order_id` function available in the `InFlightOrderBase`.</td></tr></tbody></table>
 `place_order` | `order_id:str`<br/>`symbol:str`<br/>`amount:Decimal`<br/>`is_buy:bool`<br/>`order_type:OrderType`<br/>`price:Decimal`| `Dict[str, Any]` | An asynchronous wrapper for placing orders through the REST API. Returns a JSON response from the API.
-`cancel_all` | `timeout_seconds:float`| `List[CancellationResult]` | An asynchronous function that cancels all active orders. Used by Hummingbot's top level "stop" and "exit" commands(cancelling outstanding orders on exit). Returns a `List` of [`CancellationResult`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/data_type/cancellation_result.py).<br/><br/>A `CancellationResult` is an object that indicates if an order has been successfully cancelled with a boolean variable.
+`cancel_all` | `timeout_seconds:float`| `List[CancellationResult]` | An asynchronous function that cancels all active orders. Used by Hummingbot's top level "stop" and "exit" commands(cancelling outstanding orders on exit). Returns a `List` of [`CancellationResult`](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/core/data_type/cancellation_result.py).<br/><br/>A `CancellationResult` is an object that indicates if an order has been successfully cancelled with a boolean variable.
 `_stop_network` | `None` | `None` | Synchronous function that handles when a single market goes offline
 `_http_client` | `None` | `aiohttp.ClientSession` | Returns a shared HTTP client session instance. <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: This prevents the need to establish a new session on every API request.</td></tr></tbody></table>
 `_api_request` | `http_method:str`<br/>`path_url:str`<br/>`url:str`<br/>`data:Optional[Dict[str,Any]]`| `Dict[str, Any]` | An asynchronous wrapper function for submitting API requests to the respective exchanges. Returns the JSON response form the endpoints. Handles any initial HTTP status error codes. 
@@ -300,7 +300,7 @@ Function<div style="width:150px"/> | Input Parameter(s) | Expected Output(s) | D
 `c_sell` | `str symbol`,<br/>`object amount`,<br/>`object order_type=OrderType.MARKET`,<br/>`object price=s_decimal_0`,<br/>`dict kwargs={}`| `str` | A synchronous wrapper function that generates a client-side order ID and schedules a **sell** order. It calls the `execute_buy` function and returns the client-side order ID.
 `c_cancel` | `str symbol`,<br/>`str order_id` | `str` | A synchronous wrapper function that schedules an order cancellation. <table><tbody><tr><td bgcolor="#ecf3ff">**Note**: The `order_id` here refers to the client-side order ID as tracked by Hummingbot.</td></tr></tbody></table>
 `c_did_timeout_tx` | `str tracking_id` | `None` | Triggers `MarketEvent.TransactionFailure` when an Ethereum transaction has timed out.
-`c_get_fee` | `str base_currency`,<br/>`str quote_currency`,<br/>`object order_type`,<br/>`object order_side`,<br/>`object amount`,<br/>`object price` | `TradeFee` | A function that calculates the fees for a particular order. Returns a [`TradeFee`](https://github.com/CoinAlpha/hummingbot/blob/master/hummingbot/core/event/events.py) object.
+`c_get_fee` | `str base_currency`,<br/>`str quote_currency`,<br/>`object order_type`,<br/>`object order_side`,<br/>`object amount`,<br/>`object price` | `TradeFee` | A function that calculates the fees for a particular order. Returns a [`TradeFee`](https://github.com/bitcoinsfacil/marketmaker_nmbi/blob/master/hummingbot/core/event/events.py) object.
 `c_get_order_book` | `str symbol` | `OrderBook` | Returns the `OrderBook` for a specific trading pair(symbol).
 `c_start_tracking_order` | `str client_order_id`,<br/>`str symbol`,<br/>`object order_type`,<br/>`object trade_type`,<br/>`object price`,<br/>`object amount` | `None` | Adds a new order to the `_in_flight_orders` class variable. This essentially begins tracking the order on the Hummingbot client. 
 `c_stop_tracking_order` | `str order_id` | `None` | Deletes an order from `_in_flight_orders` class variable. This essentially stops the Hummingbot client from tracking an order.
@@ -448,7 +448,7 @@ This section will breakdown some of the ways to debug and test the code. You are
 ### Option 1. Unit Test Cases
 
 For each tasks(1->3), you are required to create a unit test case. Namely they are `test_*_order_book_tracker.py`, `test_*_user_stream_tracker.py` and `test_*_market.py`. 
-Examples can be found in the [test/integration](https://github.com/CoinAlpha/hummingbot/tree/master/test/integration) folder.
+Examples can be found in the [test/integration](https://github.com/bitcoinsfacil/marketmaker_nmbi/tree/master/test/integration) folder.
 
 Below are a list of items required for the Unit Tests:
 

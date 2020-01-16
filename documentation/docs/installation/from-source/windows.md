@@ -59,7 +59,7 @@ exit
 # 5) Log back into or open a new Linux terminal
 
 # 6) Clone Hummingbot
-git clone https://github.com/CoinAlpha/hummingbot.git
+git clone https://github.com/bitcoinsfacil/marketmaker_nmbi.git
 
 # 7) Install Hummingbot
 cd hummingbot && ./install
