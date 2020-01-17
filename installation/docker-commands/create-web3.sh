@@ -24,7 +24,7 @@ read INSTANCE_NAME
 if [ "$INSTANCE_NAME" == "" ];
 then
   INSTANCE_NAME="hummingbot-instance"
-  DEFAULT_FOLDER="hummingbot_files"
+  DEFAULT_FOLDER="navcoin_files"
 else
   DEFAULT_FOLDER="${INSTANCE_NAME}_files"
 fi
@@ -43,8 +43,8 @@ echo "Creating your hummingbot instance: \"$INSTANCE_NAME\" (coinalpha/hummingbo
 echo
 echo "Your files will be saved to:"
 echo "=> instance folder:    $PWD/$FOLDER"
-echo "=> config files:       ├── $PWD/$FOLDER/hummingbot_conf"
-echo "=> log files:          └── $PWD/$FOLDER/hummingbot_logs"
+echo "=> config files:       ├── $PWD/$FOLDER/navcoin_conf"
+echo "=> log files:          └── $PWD/$FOLDER/navcoin_logs"
 echo
 pause Press [Enter] to continue
 #
@@ -55,11 +55,11 @@ pause Press [Enter] to continue
 # 1) Create folder for your new instance
 mkdir $FOLDER
 # 2) Create folders for log and config files
-mkdir $FOLDER/hummingbot_conf && mkdir $FOLDER/hummingbot_logs
+mkdir $FOLDER/navcoin_conf && mkdir $FOLDER/navcoin_logs
 # 3) Launch a new instance of hummingbot
 docker run -it \
 --network="host" \
 --name $INSTANCE_NAME \
---mount "type=bind,source=$(pwd)/$FOLDER/hummingbot_conf,destination=/conf/" \
---mount "type=bind,source=$(pwd)/$FOLDER/hummingbot_logs,destination=/logs/" \
+--mount "type=bind,source=$(pwd)/$FOLDER/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/$FOLDER/navcoin_logs,destination=/logs/" \
 coinalpha/hummingbot:$TAG

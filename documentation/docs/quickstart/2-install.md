@@ -43,9 +43,9 @@ We have created automated docker scripts that simplify the process of installing
 
 The scripts help you install an instance of Hummingbot and set up folders to house your logs and configuration files:
 ```
-hummingbot_files       # Top level folder for hummingbot-related files
-├── hummingbot_conf    # Maps to hummingbot's conf/ folder, which stores configuration files
-└── hummingbot_logs    # Maps to hummingbot's logs/ folder, which stores log files
+navcoin_files       # Top level folder for hummingbot-related files
+├── navcoin_conf    # Maps to hummingbot's conf/ folder, which stores configuration files
+└── navcoin_logs    # Maps to hummingbot's logs/ folder, which stores log files
 ```
 
 To download the scripts and create a Hummingbot instance, run the following commands:

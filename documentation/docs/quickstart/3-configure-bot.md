@@ -245,7 +245,7 @@ bid_place_threshold: 0.02
 
 ```
 
-You can also exit the bot with `exit` and edit the automatically generated configuration file `conf_pure_market_making_0.yml`. This file is saved in the directory `hummingbot_files/hummingbot_conf/` in your root. For more information, see [Troubleshooting](/support/how-to/#how-do-i-edit-the-conf-files-or-access-the-log-files-used-by-my-docker-instance).
+You can also exit the bot with `exit` and edit the automatically generated configuration file `conf_pure_market_making_0.yml`. This file is saved in the directory `navcoin_files/navcoin_conf/` in your root. For more information, see [Troubleshooting](/support/how-to/#how-do-i-edit-the-conf-files-or-access-the-log-files-used-by-my-docker-instance).
 
 
 ---

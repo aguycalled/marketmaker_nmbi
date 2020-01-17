@@ -39,8 +39,8 @@ docker run -it \
 -e CONFIG_PASSWORD=${CONFIG_PASSWORD} \
 -e WALLET=${WALLET} \
 --name hummingbot-instance \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_conf,destination=/conf/" \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_logs,destination=/logs/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
 coinalpha/hummingbot:latest
 ```
 
@@ -51,8 +51,8 @@ docker run -it \
 -e CONFIG_PASSWORD=<INSERT_CONFIG_PASSWORD> \
 -e WALLET=<INSERT_WALLET_ADDRESS> \
 --name hummingbot-instance \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_conf,destination=/conf/" \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_logs,destination=/logs/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
 coinalpha/hummingbot:latest
 ```
 

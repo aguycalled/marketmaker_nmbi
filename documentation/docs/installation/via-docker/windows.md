@@ -55,15 +55,15 @@ chmod a+x create.sh
 cd ~
 
 # 2) Create folder for your new instance
-mkdir hummingbot_files
+mkdir navcoin_files
 
 # 3) Create folders for log and config files
-mkdir hummingbot_files/hummingbot_conf && mkdir hummingbot_files/hummingbot_logs
+mkdir navcoin_files/navcoin_conf && mkdir navcoin_files/navcoin_logs
 
 # 4) Launch a new instance of hummingbot
 docker run -it \
 --name hummingbot-instance \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_conf,destination=/conf/" \
---mount "type=bind,source=$(pwd)/hummingbot_files/hummingbot_logs,destination=/logs/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
+--mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
 coinalpha/hummingbot:latest
 ```
