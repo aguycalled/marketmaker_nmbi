@@ -5,7 +5,7 @@ site_author: 'CoinAlpha, Inc.'
 site_url: 'https://docs.hummingbot.io'
 
 # Repository
-repo_name: 'coinalpha/hummingbot'
+repo_name: 'bitcoinsfacil/marketmaker_nmbi'
 repo_url: 'https://github.com/bitcoinsfacil/marketmaker_nmbi'
 edit_uri: 'blob/master/documentation/docs/'
 

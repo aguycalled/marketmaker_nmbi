@@ -32,7 +32,7 @@ You can install Hummingbot by selecting ***either*** of the following options fr
 cd ~
 
 # 2) Download install script
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-ubuntu.sh -o install-source-ubuntu.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-ubuntu.sh -o install-source-ubuntu.sh
 
 # 3) Enable script permissions
 chmod a+x install-source-ubuntu.sh

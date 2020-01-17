@@ -2,7 +2,7 @@
 
 Using a pre-compiled version of Hummingbot from Docker allows you to run instances with a few simple commands.
 
-Docker images of Hummingbot are available on Docker Hub at [coinalpha/hummingbot](https://hub.docker.com/r/coinalpha/hummingbot).
+Docker images of Hummingbot are available on Docker Hub at [bitcoinsfacil/marketmaker_nmbi](https://hub.docker.com/r/bitcoinsfacil/marketmaker_nmbi).
 
 ## Automated Docker Scripts (Optional)
 
@@ -37,24 +37,24 @@ navcoin_files       # Top level folder for hummingbot-related files
 Copy the commands below and paste into Terminal to download and enable the automated scripts.
 
 ```bash tab="Linux"
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/create.sh
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/start.sh
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/update.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/create.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/start.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/update.sh
 chmod a+x *.sh
 ```
 
 ```bash tab="MacOS"
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/create.sh -o create.sh
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/start.sh -o start.sh
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/update.sh -o update.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/create.sh -o create.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/start.sh -o start.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/update.sh -o update.sh
 chmod a+x *.sh
 ```
 
 ```bash tab="Windows (Docker Toolbox)"
 cd ~
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/create.sh -o create.sh
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/start.sh -o start.sh
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/update.sh -o update.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/create.sh -o create.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/start.sh -o start.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/update.sh -o update.sh
 chmod a+x *.sh
 ```
 

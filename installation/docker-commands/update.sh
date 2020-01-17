@@ -74,7 +74,7 @@ done
 # =============================================
 # EXECUTE SCRIPT
 echo
-echo "Hummingbot version: coinalpha/hummingbot:$TAG"
+echo "Hummingbot version: bitcoinsfacil/marketmaker_nmbi:$TAG"
 echo "List of instances to be updated:"
 j="0"
 while [ $j -le $i ]
@@ -95,7 +95,7 @@ then
     j=$[$j+1]
   done
   # 2) Delete old image
-  docker image rm coinalpha/hummingbot:$TAG
+  docker image rm bitcoinsfacil/marketmaker_nmbi:$TAG
   # 3) Re-create instances with latest hummingbot release
   j="0"
   while [ $j -le $i ]
@@ -104,7 +104,7 @@ then
     --name ${INSTANCES[$j]} \
     --mount "type=bind,source=$(pwd)/${FOLDERS[$j]}/navcoin_conf,destination=/conf/" \
     --mount "type=bind,source=$(pwd)/${FOLDERS[$j]}/navcoin_logs,destination=/logs/" \
-    coinalpha/hummingbot:$TAG
+    bitcoinsfacil/marketmaker_nmbi:$TAG
     j=$[$j+1]
   done
   echo

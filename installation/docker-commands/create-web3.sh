@@ -39,7 +39,7 @@ then
   FOLDER=$DEFAULT_FOLDER
 fi
 echo
-echo "Creating your hummingbot instance: \"$INSTANCE_NAME\" (coinalpha/hummingbot:$TAG)"
+echo "Creating your hummingbot instance: \"$INSTANCE_NAME\" (bitcoinsfacil/marketmaker_nmbi:$TAG)"
 echo
 echo "Your files will be saved to:"
 echo "=> instance folder:    $PWD/$FOLDER"
@@ -62,4 +62,4 @@ docker run -it \
 --name $INSTANCE_NAME \
 --mount "type=bind,source=$(pwd)/$FOLDER/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/$FOLDER/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:$TAG
+bitcoinsfacil/marketmaker_nmbi:$TAG

@@ -15,7 +15,7 @@ You can install Hummingbot with ***either*** of the following options:
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-ubuntu.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-ubuntu.sh
 
 # 2) Enable script permissions
 chmod a+x install-source-ubuntu.sh
@@ -55,7 +55,7 @@ bin/hummingbot.py
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-debian.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-debian.sh
 
 # 2) Enable script permissions
 chmod a+x install-source-debian.sh
@@ -95,7 +95,7 @@ bin/hummingbot.py
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-centos.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-centos.sh
 
 # 2) Enable script permissions
 chmod a+x install-source-centos.sh

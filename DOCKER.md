@@ -1,6 +1,6 @@
 # Docker Instructions
 
-Compiled versions of `hummingbot` are available on Docker Hub at [`coinalpha/hummingbot`](https://hub.docker.com/r/coinalpha/hummingbot).
+Compiled versions of `hummingbot` are available on Docker Hub at [`bitcoinsfacil/marketmaker_nmbi`](https://hub.docker.com/r/bitcoinsfacil/marketmaker_nmbi).
 
 ## Running `hummingbot` with Docker
 
@@ -14,16 +14,16 @@ For instructions on operating `hummingbot` with Docker, navigate to [`hummingbot
 
 ```sh
 # Build docker image
-$ docker build -t coinalpha/hummingbot:$TAG -f Dockerfile .
+$ docker build -t bitcoinsfacil/marketmaker_nmbi:$TAG -f Dockerfile .
 
 # Push docker image to docker hub
-$ docker push coinalpha/hummingbot:$TAG
+$ docker push bitcoinsfacil/marketmaker_nmbi:$TAG
 ```
 
 #### Build and Push
 
 ```sh
-$ docker image rm coinalpha/hummingbot:$TAG && \
-  docker build -t coinalpha/hummingbot:$TAG -f Dockerfile \
-  docker push coinalpha/hummingbot:$TAG
+$ docker image rm bitcoinsfacil/marketmaker_nmbi:$TAG && \
+  docker build -t bitcoinsfacil/marketmaker_nmbi:$TAG -f Dockerfile \
+  docker push bitcoinsfacil/marketmaker_nmbi:$TAG
 ```

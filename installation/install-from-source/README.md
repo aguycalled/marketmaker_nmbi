@@ -11,7 +11,7 @@ Copy and paste the commands for your operating system into terminal.
 - Supported versions: 16.04 LTS, 18.04 LTS, 19.04
 
 ```
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-ubuntu.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-ubuntu.sh
 chmod a+x install-source-ubuntu.sh
 ./install-source-ubuntu.sh
 ```
@@ -21,7 +21,7 @@ chmod a+x install-source-ubuntu.sh
 - Supported version: Debian GNU/Linux 9
 
 ```
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-debian.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-debian.sh
 chmod a+x install-source-debian.sh
 ./install-source-debian.sh
 ```
@@ -31,7 +31,7 @@ chmod a+x install-source-debian.sh
 - Supported version: 7
 
 ```
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-centos.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-centos.sh
 chmod a+x install-source-centos.sh
 ./install-source-centos.sh
 ```
@@ -39,7 +39,7 @@ chmod a+x install-source-centos.sh
 ## MacOS Installation
 
 ```
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-macOS.sh -o install-source-macOS.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-macOS.sh -o install-source-macOS.sh
 chmod a+x install-source-macOS.sh
 ./install-source-macOS.sh
 ```
@@ -48,7 +48,7 @@ chmod a+x install-source-macOS.sh
 
 ```
 cd ~
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/install-source-macOS.sh -o install-source-ubuntu.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/install-source-macOS.sh -o install-source-ubuntu.sh
 chmod a+x install-source-ubuntu.sh
 ./install-source-ubuntu.sh
 ```
@@ -60,7 +60,7 @@ chmod a+x install-source-ubuntu.sh
 The `update.sh` script updates Hummingbot to the latest version. Run the following commands from the root folder:
 
 ```
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-from-source/update.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-from-source/update.sh
 chmod a+x update.sh
 ./update.sh
 ```

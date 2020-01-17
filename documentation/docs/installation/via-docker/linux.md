@@ -15,7 +15,7 @@ Skip this step if you already have Docker installed. Run the following commands:
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download Docker install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-docker/install-docker-ubuntu.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-docker/install-docker-ubuntu.sh
 
 # 2) Enable script permissions
 chmod a+x install-docker-ubuntu.sh
@@ -54,7 +54,7 @@ Run the following commands:
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download Hummingbot install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/create.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/create.sh
 
 # 2) Enable script permissions
 chmod a+x create.sh
@@ -75,7 +75,7 @@ docker run -it \
 --name hummingbot-instance \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+bitcoinsfacil/marketmaker_nmbi:latest
 ```
 
 ## Debian
@@ -88,7 +88,7 @@ Skip this step if you already have Docker installed. Run the following commands:
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download Docker install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-docker/install-docker-debian.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-docker/install-docker-debian.sh
 
 # 2) Enable script permissions
 chmod a+x install-docker-debian.sh
@@ -129,7 +129,7 @@ Run the following commands:
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download Hummingbot install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/create.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/create.sh
 
 # 2) Enable script permissions
 chmod a+x create.sh
@@ -150,7 +150,7 @@ docker run -it \
 --name hummingbot-instance \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+bitcoinsfacil/marketmaker_nmbi:latest
 ```
 
 ## CentOS
@@ -163,7 +163,7 @@ Skip this step if you already have Docker installed. Run the following commands:
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download Docker install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-docker/install-docker-centos.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-docker/install-docker-centos.sh
 
 # 2) Enable script permissions
 chmod a+x install-docker-centos.sh
@@ -202,7 +202,7 @@ Run the following commands:
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download Hummingbot install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/create.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/create.sh
 
 # 2) Enable script permissions
 chmod a+x create.sh
@@ -223,7 +223,7 @@ docker run -it \
 --name hummingbot-instance \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+bitcoinsfacil/marketmaker_nmbi:latest
 ```
 
 ----

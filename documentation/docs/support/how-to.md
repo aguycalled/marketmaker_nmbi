@@ -128,7 +128,7 @@ Copy the commands below and run from the root folder (i.e. when you type `ls`, m
 # Remove instance
 docker rm my-hummingbot && \
 # Remove old image
-docker image rm coinalpha/hummingbot:latest && \
+docker image rm bitcoinsfacil/marketmaker_nmbi:latest && \
 # Rename file folder
 sudo mv my-hummingbot navcoin_files && \
 # Start new instance
@@ -136,7 +136,7 @@ docker run -it \
 --name hummingbot-instance \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+bitcoinsfacil/marketmaker_nmbi:latest
 ```
 
 * If your previous instance was named `my-instance-1` (check by running `docker ps -a`):
@@ -145,7 +145,7 @@ coinalpha/hummingbot:latest
 # Remove instance
 docker rm my-instance-1 && \
 # Remove old image
-docker image rm coinalpha/hummingbot:latest && \
+docker image rm bitcoinsfacil/marketmaker_nmbi:latest && \
 # Rename file folder
 sudo mv my-hummingbot navcoin_files && \
 # Start new instance
@@ -153,7 +153,7 @@ docker run -it \
 --name hummingbot-instance \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+bitcoinsfacil/marketmaker_nmbi:latest
 ```
 
 You will then be able to use the [automated docker scripts](/cheatsheets/docker/#automated-docker-scripts-optional).

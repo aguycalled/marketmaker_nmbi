@@ -41,7 +41,7 @@ docker run -it \
 --name hummingbot-instance \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+bitcoinsfacil/marketmaker_nmbi:latest
 ```
 
 ```bash tab="Sample entry"
@@ -53,7 +53,7 @@ docker run -it \
 --name hummingbot-instance \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+bitcoinsfacil/marketmaker_nmbi:latest
 ```
 
 **Other Docker options:**

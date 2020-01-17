@@ -18,7 +18,7 @@ Docker is an open source containerization product that pre-packages all dependen
 
 ```bash
 # 1) Download Docker install script
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/install-docker/install-docker-ubuntu.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/install-docker/install-docker-ubuntu.sh
 
 # 2) Enable script permissions
 chmod a+x install-docker-ubuntu.sh
@@ -52,9 +52,9 @@ To download the scripts and create a Hummingbot instance, run the following comm
 
 ```bash
 # 1) Download hummingbot helper scripts
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/create.sh
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/start.sh
-wget https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/update.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/create.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/start.sh
+wget https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/update.sh
 
 # 2) Enable script permissions
 chmod a+x *.sh

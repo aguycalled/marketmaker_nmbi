@@ -13,7 +13,7 @@ You can install Hummingbot by selecting ***either*** of the following options fr
 
 ```bash tab="Option 1: Easy Install"
 # 1) Download Hummingbot install script
-curl https://raw.githubusercontent.com/CoinAlpha/hummingbot/development/installation/docker-commands/create.sh -o create.sh
+curl https://raw.githubusercontent.com/bitcoinsfacil/marketmaker_nmbi/development/installation/docker-commands/create.sh -o create.sh
 
 # 2) Enable script permissions
 chmod a+x create.sh
@@ -34,5 +34,5 @@ docker run -it \
 --name hummingbot-instance \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_conf,destination=/conf/" \
 --mount "type=bind,source=$(pwd)/navcoin_files/navcoin_logs,destination=/logs/" \
-coinalpha/hummingbot:latest
+bitcoinsfacil/marketmaker_nmbi:latest
 ```
