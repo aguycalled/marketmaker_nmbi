@@ -45,7 +45,6 @@ class TradingPairFetcher:
 
         async with aiohttp.ClientSession() as client:
             async with client.get(BINANCE_ENDPOINT, timeout=API_CALL_TIMEOUT) as response:
-                print(f"binance response.status {response.status}")
                 if response.status == 200:
                     try:
                         data = await response.json()
@@ -64,7 +63,6 @@ class TradingPairFetcher:
 
         async with aiohttp.ClientSession() as client:
             async with client.get(HITBTC_ENDPOINT, timeout=API_CALL_TIMEOUT) as response:
-                print(f"fetch_hitbtc_trading_pairs response {response.status}")
                 if response.status == 200:
                     try:
                         all_trading_pairs: Dict[str, any] = await response.json()
@@ -116,7 +114,6 @@ class TradingPairFetcher:
                             break
                     else:
                         fail_counts += 1
-                        print(f"radar_relay_trading_pairs response: {response.status} amount of errors {fail_counts}")
                         if fail_counts >= 3: break
         return  [RadarRelayMarket.convert_from_exchange_trading_pair(p) for p in trading_pairs]
 

@@ -122,7 +122,7 @@ def main():
 
     setup(name="hummingbot",
           version=version,
-          description="Navcoin NarketMaker",
+          description="Navcoin MarketMaker",
           url="https://github.com/sundanny26/marketmaker_nmbi",
           author="Martin Kou / Sunil Bitcoinsfacil",
           author_email="sunil@bitcoinsfacil.com",
