@@ -45,17 +45,14 @@ class TradingPairFetcher:
 
         async with aiohttp.ClientSession() as client:
             async with client.get(BINANCE_ENDPOINT, timeout=API_CALL_TIMEOUT) as response:
+                print(f"binance response.status {response.status}")
                 if response.status == 200:
                     try:
                         data = await response.json()
                         trading_pair_structs = data.get("symbols")
-                        raw_trading_pairs = list(map(lambda details: details.get("symbol"), trading_pair_structs))
-                        # Binance API has an error where they have a symbol called 123456
                         # The symbol endpoint is
                         # https://api.binance.com/api/v1/exchangeInfo
-                        if "123456" in raw_trading_pairs:
-                            raw_trading_pairs.remove("123456")
-                        return [BinanceMarket.convert_from_exchange_trading_pair(p) for p in raw_trading_pairs]
+                        return BinanceMarket.convert_from_exchange_trading_pair_list(trading_pair_structs)
                     except Exception:
                         pass
                         # Do nothing if the request fails -- there will be no autocomplete for binance trading pairs
@@ -67,13 +64,11 @@ class TradingPairFetcher:
 
         async with aiohttp.ClientSession() as client:
             async with client.get(HITBTC_ENDPOINT, timeout=API_CALL_TIMEOUT) as response:
+                print(f"fetch_hitbtc_trading_pairs response {response.status}")
                 if response.status == 200:
                     try:
                         all_trading_pairs: Dict[str, any] = await response.json()
-                        valid_trading_pairs: list = []
-                        for item in all_trading_pairs:
-                            valid_trading_pairs.append(item["id"])
-                        return [HitBtcMarket.convert_from_exchange_trading_pair(p) for p in valid_trading_pairs]
+                        return HitBtcMarket.convert_from_exchange_trading_pair_list(all_trading_pairs)
                     except Exception:
                         pass
                         # Do nothing if the request fails -- there will be no autocomplete for HitBTC trading pairs
@@ -102,6 +97,7 @@ class TradingPairFetcher:
 
         trading_pairs = set()
         page_count = 1
+        fail_counts = 0
         while True:
             async with aiohttp.ClientSession() as client:
                 async with client.get(f"{RADAR_RELAY_ENDPOINT}?perPage=100&page={page_count}", timeout=API_CALL_TIMEOUT) \
@@ -118,7 +114,11 @@ class TradingPairFetcher:
                         except Exception:
                             # Do nothing if the request fails -- there will be no autocomplete for radar trading pairs
                             break
-        return [RadarRelayMarket.convert_from_exchange_trading_pair(p) for p in trading_pairs]
+                    else:
+                        fail_counts += 1
+                        print(f"radar_relay_trading_pairs response: {response.status} amount of errors {fail_counts}")
+                        if fail_counts >= 3: break
+        return  [RadarRelayMarket.convert_from_exchange_trading_pair(p) for p in trading_pairs]
 
     @staticmethod
     async def fetch_bamboo_relay_trading_pairs() -> List[str]:
@@ -271,7 +271,6 @@ class TradingPairFetcher:
         binance_trading_pairs = await self.fetch_binance_trading_pairs()
         hitbtc_trading_pairs = await self.fetch_hitbtc_trading_pairs()
         ddex_trading_pairs = await self.fetch_ddex_trading_pairs()
-        radar_relay_trading_pairs = await self.fetch_radar_relay_trading_pairs()
         bamboo_relay_trading_pairs = await self.fetch_bamboo_relay_trading_pairs()
         coinbase_pro_trading_pairs = await self.fetch_coinbase_pro_trading_pairs()
         dolomite_trading_pairs = await self.fetch_dolomite_trading_pairs()
@@ -280,6 +279,7 @@ class TradingPairFetcher:
         idex_trading_pairs = await self.fetch_idex_trading_pairs()
         bittrex_trading_pairs = await self.fetch_bittrex_trading_pairs()
         bitcoin_com_trading_pairs = await self.fetch_bitcoin_com_trading_pairs()
+        radar_relay_trading_pairs = await self.fetch_radar_relay_trading_pairs()
         self.trading_pairs = {
             "binance": binance_trading_pairs,
             "hitbtc": hitbtc_trading_pairs,

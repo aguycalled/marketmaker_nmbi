@@ -203,6 +203,18 @@ cdef class BinanceMarket(MarketBase):
         return f"{base_asset}-{quote_asset}"
 
     @staticmethod
+    def convert_from_exchange_trading_pair_list(exchange_trading_pair_info: Dict[str, Any]) -> Dict[str, Any]:
+        """This is a bit different from other connectors, this one will take the whole list 
+        of pairs and separate them using the information in the parameter array not using
+        the SYMBOL_SPLITTER
+        """
+        pairs = []
+        for pair in exchange_trading_pair_info: 
+            base_asset, quote_asset = pair["baseAsset"], pair["quoteAsset"]
+            pairs.append(f"{base_asset}-{quote_asset}")
+        return pairs
+
+    @staticmethod
     def convert_to_exchange_trading_pair(hb_trading_pair: str) -> str:
         # Binance does not split BASEQUOTE (BTCUSDT)
         return hb_trading_pair.replace("-", "")

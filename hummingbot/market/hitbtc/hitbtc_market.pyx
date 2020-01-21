@@ -50,8 +50,7 @@ import hummingbot.market.hitbtc.hitbtc_constants as constants
 
 hbm_logger = None
 s_decimal_0 = Decimal(0)
-SYMBOL_SPLITTER = re.compile(r"^(\w+)(EURS|BUSD|TUSD|GUSD|USDT|USDC|KRWB|USDT20|DAI|PAX|EOSDT|EOS|BTC|ETH|BCH)$")
-
+SYMBOL_SPLITTER = re.compile(r"^(\w+)(EURS|BCH|EOSDT|USDC|PAX|KRWB|DAI|EOS|USD|BTC|TUSD|GUSD|ETH|USDT20|IDRT|BUSD)$")
 
 class HitBtcAPIError(IOError):
     def __init__(self, error_payload: Dict[str, Any]):
@@ -139,9 +138,16 @@ cdef class HitBtcMarket(MarketBase):
             raise ValueError(f"Error parsing trading_pair {trading_pair}: {str(e)}")
 
     @staticmethod
-    def convert_from_exchange_trading_pair(exchange_trading_pair: str) -> str:
-        base_asset, quote_asset = HitBtcMarket.split_trading_pair(exchange_trading_pair)
-        return f"{base_asset}-{quote_asset}"
+    def convert_from_exchange_trading_pair_list(exchange_trading_pair_info: Dict[str, Any]) -> Dict[str, Any]:
+        """This is a bit different from other connectors, this one will take the whole list 
+        of pairs and separate them using the information in the parameter array not using
+        the SYMBOL_SPLITTER
+        """
+        pairs = []
+        for pair in exchange_trading_pair_info: 
+            base_asset, quote_asset = pair["baseCurrency"], pair["quoteCurrency"]
+            pairs.append(f"{base_asset}-{quote_asset}")
+        return pairs
 
     @staticmethod
     def convert_to_exchange_trading_pair(trading_pair: str) -> str:
